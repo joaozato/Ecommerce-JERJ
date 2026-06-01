@@ -5,6 +5,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
@@ -14,7 +16,7 @@ public class TokenService {
     // Chave secreta para assinar o token (em um projeto real, isso ficaria no application.properties)
     // Coloquei uma string longa aqui apenas para o JWT não reclamar do tamanho da chave
     private static final String SECRET_STRING = "MeuSegredoSuperSecretoParaOProjetoDeEcommerce2026";
-    private final Key secretKey = Keys.hmacShaKeyFor(SECRET_STRING.getBytes());
+    private final SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_STRING.getBytes(StandardCharsets.UTF_8));
     
     // Tempo de expiração do token (ex: 2 horas)
     private static final long EXPIRATION_TIME = 7200000; 
@@ -30,18 +32,21 @@ public class TokenService {
     }
 
     public String getEmailFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+        Claims claims = Jwts.parser()
+                .verifyWith(secretKey) //
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
-        
+                .parseSignedClaims(token)    // Nova sintaxe para ler o token assinado
+                .getPayload();               // Mudou de getBody() para getPayload()
+
         return claims.getSubject();
     }
 
     public boolean isTokenValid(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+            Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             // Se cair aqui, o token expirou, foi alterado ou é inválido
