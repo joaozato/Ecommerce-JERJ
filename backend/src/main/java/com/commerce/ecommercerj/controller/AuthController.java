@@ -1,5 +1,5 @@
 package com.commerce.ecommercerj.controller;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.commerce.ecommercerj.dto.AuthRequestDTO;
 import com.commerce.ecommercerj.dto.AuthResponseDTO;
 import com.commerce.ecommercerj.security.TokenService;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController // Avisa o Spring que essa classe vai responder requisições via JSON
 @RequestMapping("/auth") // Todas as rotas aqui dentro vão começar com /auth
+@CrossOrigin(origins = "http://localhost:4200") // URL do Angular
 public class AuthController {
 
     @Autowired

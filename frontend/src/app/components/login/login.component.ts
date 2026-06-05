@@ -1,0 +1,48 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
+import {SubmitButtonComponent} from '../../shared/SubmitButton/submit-button.component';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  imports: [
+    CommonModule,             // <-- Necessário para utilizar *ngIf e *ngFor no html
+    FormsModule,              // <-- Necessário para utilizar [(ngModel)] no html
+    SubmitButtonComponent     // <-- Necessário para utilizar o component de botão shared no html
+  ]
+})
+export class LoginComponent {
+
+  email: string = '';
+  /* password: string = ''; */
+  nome: string = '';
+  cpf: string = '';
+  errorMessage: string = '';
+  loading: boolean = false;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  login() {
+    this.errorMessage = '';
+    this.loading = true;
+
+    this.authService.login({ email: this.email, nome:this.nome, /* password: this.password , */ cpf: this.cpf })
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          console.log(this.authService.getPayload());
+          console.log(this.authService.isTokenExpired());
+          console.log(this.authService.isAdmin())
+          this.router.navigate(['/home']); // Se o login for bem sucedido, vai direcionar para a página principal
+        },
+        error: (err) => {
+          this.loading = false;
+          this.errorMessage = 'Email ou senha inválidos!';
+          console.error('Erro ao fazer login:', err);
+        }
+      });
+  }
+}
