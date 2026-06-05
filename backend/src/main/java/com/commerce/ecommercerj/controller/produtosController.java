@@ -4,6 +4,9 @@ package com.commerce.ecommercerj.controller;
 import com.commerce.ecommercerj.business.produtosService;
 import com.commerce.ecommercerj.infrastructure.entitys.produtos;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Collections;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +23,18 @@ public class produtosController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity<produtos> buscarProdutopornome(@RequestParam String nome){
-        return ResponseEntity.ok(produtosService.buscarProdutopornome(nome));
+    @GetMapping("/buscar")
+    public ResponseEntity<List<produtos>> buscarProdutopornome(@RequestParam String nome){
+        List<produtos> resultado = produtosService.buscarProdutopornome(nome);
+        return ResponseEntity.ok(resultado);
+    }
 
-    }
     @GetMapping
-    public ResponseEntity<produtos> listarTodos(@ResquestParam String nome){
-        return ResponseEntity.ok(produtosService.listarTodos(todos));
+    public ResponseEntity<List<produtos>> listarTodos(){
+        List<produtos> todos = produtosService.listarTodos();
+        return ResponseEntity.ok(todos);
     }
+
     @DeleteMapping
     public ResponseEntity<Void> deletaProduto(@RequestParam Integer id){
         produtosService.deletaProduto(id);

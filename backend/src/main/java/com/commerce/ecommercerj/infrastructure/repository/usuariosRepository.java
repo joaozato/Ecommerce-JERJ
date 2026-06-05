@@ -1,15 +1,14 @@
 package com.commerce.ecommercerj.infrastructure.repository;
 
-import com.commerce.ecommercerj.infrastructure.entitys.produtos;
+import com.commerce.ecommercerj.infrastructure.entitys.usuarios;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+public interface usuariosRepository extends JpaRepository<usuarios, Integer> {
 
-public interface produtosRepository extends JpaRepository<produtos, Integer> {
-
-    List<produtos> findByNomeContainingIgnoreCase(String nome);
+    boolean existsByEmail(String email);
+    boolean existsByCpf(String cpf);
 
     @Transactional
     void deleteById(@NonNull Integer id);

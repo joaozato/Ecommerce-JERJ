@@ -2,6 +2,9 @@ package com.commerce.ecommercerj.business;
 
 import com.commerce.ecommercerj.infrastructure.entitys.produtos;
 import com.commerce.ecommercerj.infrastructure.repository.produtosRepository;
+
+import java.util.Collections;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,18 +19,25 @@ public class produtosService {
     }
 
     public void salvaProduto(produtos produtos){
+
         repository.save(produtos);
     }
 
-    public produtos buscarProdutopornome(String nome) {
-        return repository.findByNome(nome).orElseThrow(
-                () -> new RuntimeException("Produto não encontrado!")
-        );
+    public List<produtos> buscarProdutopornome(String nome) {
+        List<produtos> busca = (List<produtos>) repository.findByNomeContainingIgnoreCase(nome);
+        if (busca.isEmpty()){
+            throw new RuntimeException("Nenhum produto encontrado com esse nome!");
+        }
+        
+        return busca;
     }
-    public produtos listarTodos(String nome){
-        return repository.findAll(nome).orElseThrow(
-        () -> new RuntimeException("Nenhum produto no estoque!")
-        );
+    public List<produtos> listarTodos(){
+        List<produtos> lista = repository.findAll();
+
+        if (lista.isEmpty()){
+            throw new RuntimeException("Nenhum produto no estoque!");
+        }
+        return lista;
     }
 
     public void deletaProduto(Integer id){
