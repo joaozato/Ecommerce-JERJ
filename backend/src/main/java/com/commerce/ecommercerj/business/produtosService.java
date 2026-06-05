@@ -18,29 +18,49 @@ public class produtosService {
         this.repository = repository;
     }
 
-    public void salvaProduto(produtos produtos){
+    public void salvaProduto(produtos produtos) {
 
         repository.save(produtos);
     }
 
     public List<produtos> buscarProdutopornome(String nome) {
         List<produtos> busca = (List<produtos>) repository.findByNomeContainingIgnoreCase(nome);
-        if (busca.isEmpty()){
+        if (busca.isEmpty()) {
             throw new RuntimeException("Nenhum produto encontrado com esse nome!");
         }
-        
+
         return busca;
+
     }
-    public List<produtos> listarTodos(){
+
+    public List<produtos> listarTodos() {
         List<produtos> lista = repository.findAll();
 
-        if (lista.isEmpty()){
+        if (lista.isEmpty()) {
             throw new RuntimeException("Nenhum produto no estoque!");
         }
         return lista;
     }
 
-    public void deletaProduto(Integer id){
+    public void deletaProduto(Integer id) {
         repository.deleteById(id);
+    }
+
+    public void vendaProdutos(Integer id, Integer quantidadeComprada) {
+        produtos produtos = repository.findById(id).orElseThrow(
+                () -> new RuntimeException("erro!!"));
+
+        if (produtos.getQuantidade() == 0) {
+            throw new RuntimeException("O produto '" + produtos.getNome() + "' esta esgotado!!");
+        }
+        if (produtos.getQuantidade() < quantidadeComprada) {
+            throw new RuntimeException("Estoque insuficiente!" + produtos.getQuantidade() + "unidades disponíveis!");
+        }
+
+
+        int novoQuantidade = produtos.getQuantidade() - quantidadeComprada;
+        produtos.setQuantidade(novoQuantidade);
+
+        repository.save(produtos);
     }
 }

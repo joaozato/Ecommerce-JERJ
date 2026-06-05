@@ -17,16 +17,16 @@ public class produtos {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "Nome", nullable = false)
     private String nome;
 
-    @Column(name = "marca",  nullable = false)
+    @Column(name = "Marca",  nullable = false)
     private String marca;
 
-    @Column(name = "preco",  nullable = false)
+    @Column(name = "Preço",  nullable = false)
     private float preco;
 
-    @Column(name = "quantidade", nullable = false)
+    @Column(name = "Quantidade", nullable = false)
     private int quantidade;
 
 }
