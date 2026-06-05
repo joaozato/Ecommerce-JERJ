@@ -25,7 +25,10 @@ public class produtosController {
         return ResponseEntity.ok(produtosService.buscarProdutopornome(nome));
 
     }
-
+    @GetMapping
+    public ResponseEntity<produtos> listarTodos(@ResquestParam String nome){
+        return ResponseEntity.ok(produtosService.listarTodos(todos));
+    }
     @DeleteMapping
     public ResponseEntity<Void> deletaProduto(@RequestParam Integer id){
         produtosService.deletaProduto(id);

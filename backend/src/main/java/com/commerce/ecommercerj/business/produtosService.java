@@ -24,6 +24,11 @@ public class produtosService {
                 () -> new RuntimeException("Produto não encontrado!")
         );
     }
+    public produtos listarTodos(String nome){
+        return repository.findAll(nome).orElseThrow(
+        () -> new RuntimeException("Nenhum produto no estoque!")
+        );
+    }
 
     public void deletaProduto(Integer id){
         repository.deleteById(id);
