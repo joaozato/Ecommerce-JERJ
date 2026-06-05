@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div class="flex min-h-screen">
+
+  <div class="flex-1 flex items-center justify-center bg-white">
+    <div class="w-full max-w-md p-8">
+      <h2 class="text-5xl font-bold mb-12">Login</h2>
+
+      <form (ngSubmit)="login()" class="space-y-4">
+
+        <div>
+          <label class="block text-sm font-medium mb-1" for="email">Email:</label>
+          <input
+            type="text"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Seu email"
+            required
+            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1" for="nome">Nome:</label>
+          <input
+            type="text"
+            id="nome"
+            [(ngModel)]="nome"
+            name="nome"
+            placeholder="Seu Nome"
+            required
+            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1" for="cpf">CPF:</label>
+          <input
+            type="text"
+            id="cpf"
+            [(ngModel)]="cpf"
+            name="cpf"
+            placeholder="Seu CPF"
+            required
+            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- <div>
+          <label class="block text-sm font-medium mb-1" for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Sua senha"
+            required
+            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div> -->
+
+        <div class="mt-6">
+          <submit-button type="submit" [disabled]="loading" label="Login" color="orange"></submit-button>
+        </div>
+
+        <div *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
+        <div *ngIf="loading" class="text-gray-500 mt-2">Logando...</div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Lado direito: Quadrado azul -->
+  <div class="flex-1 bg-blue-950">
+    <!-- DEFINIR QUAL VAI SER O DESIGN DESSA PARTE -->
+  </div>
+
+</div>
+
+</body>
+</html>
