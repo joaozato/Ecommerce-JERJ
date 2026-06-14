@@ -1,10 +1,27 @@
-<button class="floating-menu" type="button" aria-label="Abrir menu" (click)="toggleMenu()">
+<button
+  class="floating-menu"
+  type="button"
+  aria-label="Abrir menu"
+  [style.top.px]="menuPosition.top"
+  [style.right.px]="menuPosition.right"
+  (pointerdown)="startDrag($event)"
+  (pointermove)="dragMenu($event)"
+  (pointerup)="endDrag($event)"
+  (pointercancel)="endDrag($event)"
+  (click)="toggleMenu($event)"
+>
   <svg lucideMenu size="27" strokeWidth="2.5"></svg>
 </button>
 
 <div class="menu-backdrop" *ngIf="isOpen" (click)="closeMenu()"></div>
 
-<aside class="menu-modal" *ngIf="isOpen" aria-label="Menu principal">
+<aside
+  class="menu-modal"
+  *ngIf="isOpen"
+  aria-label="Menu principal"
+  [style.top.px]="menuPosition.top"
+  [style.right.px]="menuPosition.right"
+>
   <header class="menu-header">
     <button class="profile-button" type="button">
       <svg lucideUserRound size="23" strokeWidth="2.5"></svg>

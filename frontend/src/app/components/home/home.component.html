@@ -5,6 +5,35 @@
     (searchChange)="pesquisarProdutos($event)"
   />
 
+  <aside class="cart-panel" *ngIf="carrinhoAberto" aria-label="Lista do carrinho">
+    <header class="cart-panel-header">
+      <h2>Carrinho</h2>
+      <span>{{ totalItensCarrinho }} item(ns)</span>
+    </header>
+
+    <p class="cart-empty" *ngIf="!itensCarrinho.length">Seu carrinho está vazio.</p>
+
+    <div class="cart-items" *ngIf="itensCarrinho.length">
+      <article class="cart-item" *ngFor="let item of itensCarrinho">
+        <div>
+          <h3>{{ item.produto.nome }}</h3>
+          <p>{{ item.produto.marca }}</p>
+          <strong>R$ {{ item.produto.preco | number:'1.2-2' }}</strong>
+        </div>
+
+        <div class="cart-item-actions">
+          <span>Qtd. {{ item.quantidade }}</span>
+          <button type="button" (click)="removerDoCarrinho(item.produto.id)">-</button>
+        </div>
+      </article>
+
+      <footer class="cart-total">
+        <span>Total</span>
+        <strong>R$ {{ totalCarrinho | number:'1.2-2' }}</strong>
+      </footer>
+    </div>
+  </aside>
+
   <section class="hero" aria-label="Carrossel de banners">
     <button class="carousel-button carousel-button--left" type="button" aria-label="Banner anterior" (click)="bannerAnterior()">
       <svg lucideChevronLeft size="34" strokeWidth="2.7"></svg>

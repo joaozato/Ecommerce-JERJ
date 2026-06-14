@@ -18,6 +18,11 @@ interface HomeProduct extends Product {
   parcelas: number;
 }
 
+interface CartItem {
+  produto: HomeProduct;
+  quantidade: number;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -37,6 +42,8 @@ interface HomeProduct extends Product {
 export class HomeComponent implements OnInit {
 
   listaProdutos: HomeProduct[] = [];
+  itensCarrinho: CartItem[] = [];
+  carrinhoAberto = false;
   totalItensCarrinho = 0;
   bannerAtual = 0;
   banners: string[] = [];
@@ -62,12 +69,42 @@ export class HomeComponent implements OnInit {
   }
 
   adicionarAoCarrinho(produto: HomeProduct) {
-    this.totalItensCarrinho += 1;
+    const itemCarrinho = this.itensCarrinho.find((item) => item.produto.id === produto.id);
+
+    if (itemCarrinho) {
+      itemCarrinho.quantidade += 1;
+    } else {
+      this.itensCarrinho = [
+        ...this.itensCarrinho,
+        { produto, quantidade: 1 },
+      ];
+    }
+
+    this.atualizarTotalItensCarrinho();
+    this.carrinhoAberto = true;
     console.log('Adicionou ao carrinho:', produto.nome);
   }
 
   abrirCarrinho() {
-    console.log('Abrir carrinho');
+    this.carrinhoAberto = !this.carrinhoAberto;
+  }
+
+  removerDoCarrinho(produtoId: number) {
+    this.itensCarrinho = this.itensCarrinho
+      .map((item) => item.produto.id === produtoId
+        ? { ...item, quantidade: item.quantidade - 1 }
+        : item
+      )
+      .filter((item) => item.quantidade > 0);
+
+    this.atualizarTotalItensCarrinho();
+  }
+
+  get totalCarrinho() {
+    return this.itensCarrinho.reduce(
+      (total, item) => total + item.produto.preco * item.quantidade,
+      0
+    );
   }
 
   pesquisarProdutos(termo: string) {
@@ -116,5 +153,12 @@ export class HomeComponent implements OnInit {
       valorParcela: produto.preco / 5,
       parcelas: 5,
     }));
+  }
+
+  private atualizarTotalItensCarrinho() {
+    this.totalItensCarrinho = this.itensCarrinho.reduce(
+      (total, item) => total + item.quantidade,
+      0
+    );
   }
 }

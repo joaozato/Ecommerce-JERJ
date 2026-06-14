@@ -1,7 +1,5 @@
 .floating-menu {
   position: fixed;
-  top: 74px;
-  right: 7px;
   z-index: 38;
   display: inline-flex;
   align-items: center;
@@ -12,7 +10,13 @@
   border-radius: 7px;
   background: #2d3144;
   color: #ffffff;
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.floating-menu:active {
+  cursor: grabbing;
 }
 
 .menu-backdrop {
@@ -24,8 +28,6 @@
 
 .menu-modal {
   position: fixed;
-  top: 74px;
-  right: 7px;
   z-index: 37;
   width: min(247px, calc(100vw - 14px));
   aspect-ratio: 1 / 1;
