@@ -1,7 +1,10 @@
 package com.commerce.ecommercerj.controller;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.commerce.ecommercerj.dto.AuthRequestDTO;
 import com.commerce.ecommercerj.dto.AuthResponseDTO;
+import com.commerce.ecommercerj.infrastructure.entitys.usuarios;
+import com.commerce.ecommercerj.infrastructure.repository.usuariosRepository;
 import com.commerce.ecommercerj.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +18,22 @@ public class AuthController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private usuariosRepository userRepository;
+
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO body) {
-        
-       
+        // Busca o usuário real no banco
+        usuarios usuario = userRepository.findByEmail(body.email())
+                .orElseThrow(() -> new RuntimeException("E-mail não cadastrado!"));
 
-        // Uma lógica diferente se o email tiver a palavra "admin", geramos token de vendedor.
-        // Se não tiver, geramos token de usuário comum.
-        String role = body.email().contains("admin") ? "ADMIN" : "USER";
-        
-        // Chama a nossa fábrica de tokens passando o email e o papel
-        String token = tokenService.generateToken(body.email(), role);
+        // Compara a senha em texto
+        if (!usuario.getSenha().equals(body.senha())) {
+            throw new RuntimeException("Senha incorreta!");
+        }
+
+        // Gera o token passando a role que está salva na tabela de usuários ("USER" ou "ADMIN")
+        String token = tokenService.generateToken(usuario.getEmail(), usuario.getRole());
         
         // Devolve o token empacotado no nosso Response DTO com o status 200 (OK)
         return ResponseEntity.ok(new AuthResponseDTO(token));

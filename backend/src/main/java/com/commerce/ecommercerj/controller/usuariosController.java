@@ -29,6 +29,7 @@ public class usuariosController {
         List<usuarios> lista = usuariosService.listarTodosUsuarios();
         return ResponseEntity.ok().body(lista);
     }
+
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deletaUsuario(@RequestParam Integer id){
         usuariosService.deletaUsuario(id);

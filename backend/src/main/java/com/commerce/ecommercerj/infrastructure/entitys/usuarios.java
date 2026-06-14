@@ -31,7 +31,6 @@ public class usuarios {
     @Column(name = "telefone")
     private String telefone;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TipodeUsuario role;
+    @Column(name = "role")
+    private String role;
 }

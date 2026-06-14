@@ -6,6 +6,8 @@ import com.commerce.ecommercerj.infrastructure.repository.produtosRepository;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.commerce.ecommercerj.dto.CheckoutItemDTO;
 
 @Service
 public class produtosService {
@@ -62,5 +64,15 @@ public class produtosService {
         produtos.setQuantidade(novoQuantidade);
 
         repository.save(produtos);
+    }
+
+    @Transactional
+    public void processarCheckout(List<CheckoutItemDTO> itens) {
+        if (itens == null || itens.isEmpty()) {
+            throw new RuntimeException("A lista de itens de checkout não pode ser vazia!");
+        }
+        for (CheckoutItemDTO item : itens) {
+            vendaProdutos(item.id(), item.quantidade());
+        }
     }
 }

@@ -1,26 +1,34 @@
 package com.commerce.ecommercerj.security;
 
+import com.commerce.ecommercerj.infrastructure.entitys.usuarios;
+import com.commerce.ecommercerj.infrastructure.repository.usuariosRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service // Essa anotação é o que o Spring estava procurando!
+import java.util.Collections;
+
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    // Futuramente, você e sua dupla vão injetar o UserRepository aqui:
-    // @Autowired
-    // private UserRepository userRepository;
+    @Autowired
+    private usuariosRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Como você ainda não criou as tabelas no SQLite, vamos deixar mockado.
-        // O Spring só precisa saber que essa classe existe para conseguir iniciar.
-        
-        // Quando o banco estiver pronto, o código real será parecido com isso:
-        // return userRepository.findByEmail(username)
-        //         .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        // Busca o usuário do banco de dados
+        usuarios user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        throw new UsernameNotFoundException("Banco de dados de usuários ainda não conectado");
+        // Retorna o usuário com a role ("ROLE_USER" ou "ROLE_ADMIN")
+        return new User(
+                user.getEmail(),
+                user.getSenha(),
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
+        );
     }
 }

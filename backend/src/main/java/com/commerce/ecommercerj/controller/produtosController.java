@@ -3,6 +3,7 @@ package com.commerce.ecommercerj.controller;
 
 import com.commerce.ecommercerj.business.produtosService;
 import com.commerce.ecommercerj.infrastructure.entitys.produtos;
+import com.commerce.ecommercerj.dto.CheckoutItemDTO;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
@@ -38,6 +39,12 @@ public class produtosController {
     @DeleteMapping
     public ResponseEntity<Void> deletaProduto(@RequestParam Integer id){
         produtosService.deletaProduto(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<Void> processarCheckout(@RequestBody List<CheckoutItemDTO> itens) {
+        produtosService.processarCheckout(itens);
         return ResponseEntity.ok().build();
     }
 }

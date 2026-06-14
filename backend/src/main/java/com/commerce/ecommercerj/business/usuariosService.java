@@ -37,4 +37,8 @@ public class usuariosService {
     public void deletaUsuario(Integer id){
         repository.deleteById(id);
     }
+
+    public void editarUsuario(usuarios usuario){
+        
+    }
 }
