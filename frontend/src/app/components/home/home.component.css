@@ -12,13 +12,14 @@
 
 .cart-panel {
   position: fixed;
-  top: 67px;
-  right: 10px;
+  top: 61px;
+  right: 0;
   z-index: 40;
-  width: min(360px, calc(100vw - 20px));
-  border: 1px solid #d7dbe2;
+  width: min(360px, 100vw);
+  border: 0;
   border-radius: 8px;
   background: #ffffff;
+  overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
 }
 
@@ -28,6 +29,7 @@
   justify-content: space-between;
   padding: 10px 12px;
   border-bottom: 1px solid #d7dbe2;
+  border-radius: 8px 8px 0 0;
   background: #2d3144;
   color: #ffffff;
 }
