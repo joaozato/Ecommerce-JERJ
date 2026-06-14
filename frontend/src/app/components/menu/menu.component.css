@@ -1,0 +1,17 @@
+.floating-menu {
+  position: fixed;
+  top: 74px;
+  right: 7px;
+  z-index: 25;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 29px;
+  border: 0;
+  border-radius: 7px;
+  background: #2d3144;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.32);
+  cursor: pointer;
+}
