@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import {
   LucideChevronLeft,
@@ -10,11 +9,10 @@ import {
 } from '@lucide/angular';
 import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
+import { Product } from '../../models/product.model';
+import { ProductService } from '../../services/product/product.service';
 
-interface HomeProduct {
-  id: number;
-  nome: string;
-  preco: number;
+interface HomeProduct extends Product {
   avaliacoes: number;
   valorParcela: number;
   parcelas: number;
@@ -42,15 +40,14 @@ export class HomeComponent implements OnInit {
   totalItensCarrinho = 0;
   bannerAtual = 0;
   banners: string[] = [];
-  private readonly API = 'http://localhost:8080/produtos';
   private readonly produtosBase: HomeProduct[] = [
-    { id: 1, nome: 'Produto destaque 1', preco: 150.5, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 2, nome: 'Produto destaque 2', preco: 150.5, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 3, nome: 'Produto destaque 3', preco: 150.5, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 4, nome: 'Produto destaque 4', preco: 150.5, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
+    { id: 1, nome: 'Produto destaque 1', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
+    { id: 2, nome: 'Produto destaque 2', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
+    { id: 3, nome: 'Produto destaque 3', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
+    { id: 4, nome: 'Produto destaque 4', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
     this.listaProdutos = this.produtosBase;
@@ -58,16 +55,8 @@ export class HomeComponent implements OnInit {
   }
 
   listarProdutosDoBanco() {
-    this.http.get<any[]>(this.API).subscribe({
-      next: (dados) => {
-        this.listaProdutos = dados.map((prod, index) => ({
-          id: prod.id ?? index + 1,
-          ...prod,
-          avaliacoes: 33,
-          valorParcela: prod.preco / 5,
-          parcelas: 5,
-        }));
-      },
+    this.productService.listAll().subscribe({
+      next: (dados) => this.listaProdutos = this.mapearProdutos(dados),
       error: (err) => console.error('Erro ao buscar produtos:', err)
     });
   }
@@ -82,7 +71,20 @@ export class HomeComponent implements OnInit {
   }
 
   pesquisarProdutos(termo: string) {
-    console.log('Pesquisar produtos:', termo);
+    const nome = termo.trim();
+
+    if (!nome) {
+      this.listarProdutosDoBanco();
+      return;
+    }
+
+    this.productService.searchByName(nome).subscribe({
+      next: (dados) => this.listaProdutos = this.mapearProdutos(dados),
+      error: (err) => {
+        console.error('Erro ao pesquisar produtos:', err);
+        this.listaProdutos = [];
+      },
+    });
   }
 
   abrirMenu() {
@@ -105,5 +107,14 @@ export class HomeComponent implements OnInit {
     }
 
     this.bannerAtual = (this.bannerAtual + 1) % this.banners.length;
+  }
+
+  private mapearProdutos(produtos: Product[]): HomeProduct[] {
+    return produtos.map((produto) => ({
+      ...produto,
+      avaliacoes: 33,
+      valorParcela: produto.preco / 5,
+      parcelas: 5,
+    }));
   }
 }

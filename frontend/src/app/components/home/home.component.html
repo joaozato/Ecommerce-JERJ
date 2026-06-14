@@ -32,11 +32,14 @@
     <div class="products-grid">
       <article class="product-card" *ngFor="let produto of listaProdutos">
         <div class="product-rating" aria-label="5 estrelas">
-          <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="14" strokeWidth="0" class="star-icon"></svg>
+          <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="18" strokeWidth="0" class="star-icon"></svg>
           <span>({{ produto.avaliacoes }})</span>
         </div>
 
         <div class="product-image-slot" aria-hidden="true"></div>
+
+        <h3 class="product-name">{{ produto.nome }}</h3>
+        <p class="product-meta">{{ produto.marca }} - {{ produto.quantidade }} em estoque</p>
 
         <footer class="product-footer">
           <div>
