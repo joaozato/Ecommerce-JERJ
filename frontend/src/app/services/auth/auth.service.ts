@@ -95,11 +95,13 @@ export class AuthService {
   } Pode ser utilizado no futuro */
 
   isAdmin(): boolean {
-    return this.getPayload()?.role === 'ADMIN';
+    const role = this.getPayload()?.role;
+    return role === 'ADMIN' || role === 'Administrador';
   }
 
   isUser(): boolean {
-    return this.getPayload()?.role === 'USER';
+    const role = this.getPayload()?.role;
+    return role === 'USER' || role === 'Cliente';
   }
 
 
