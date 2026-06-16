@@ -14,7 +14,7 @@ import lombok.*;
 
 public class produtos {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @Column(name = "Nome", nullable = false)
@@ -28,5 +28,8 @@ public class produtos {
 
     @Column(name = "Quantidade", nullable = false)
     private int quantidade;
+
+    @Column(name = "PathImagem")
+    private String pathImagem;
 
 }

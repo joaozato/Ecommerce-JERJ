@@ -65,6 +65,9 @@ public class produtosService {
 
         repository.save(produtos);
     }
+    public produtos BuscarByIDProduto(Integer id) {
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("erro!!"));
+    }
 
     @Transactional
     public void processarCheckout(List<CheckoutItemDTO> itens) {
