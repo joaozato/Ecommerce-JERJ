@@ -34,6 +34,13 @@ public class produtosService {
         return busca;
 
     }
+    public List<produtos> buscarProdutosPorCategoria(String categoria) {
+        List<produtos> busca = repository.findByCategoriaContainingIgnoreCase(categoria);
+        if (busca.isEmpty()) {
+            throw new RuntimeException("Nenhum produto listado nessa categoria!!");
+        }
+        return busca;
+    }
 
     public List<produtos> listarTodos() {
         List<produtos> lista = repository.findAll();

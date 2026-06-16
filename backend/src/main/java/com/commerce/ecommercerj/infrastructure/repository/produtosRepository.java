@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface produtosRepository extends JpaRepository<produtos, Integer> {
 
     List<produtos> findByNomeContainingIgnoreCase(String nome);
-
+    List<produtos> findByCategoriaContainingIgnoreCase(String categoria);
     Optional<produtos> findById(Integer id);
 
     @Transactional

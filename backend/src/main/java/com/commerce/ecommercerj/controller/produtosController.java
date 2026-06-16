@@ -29,6 +29,12 @@ public class produtosController {
         return ResponseEntity.ok(resultado);
     }
 
+    @GetMapping("/listarCategoria")
+    public ResponseEntity<List<produtos>> buscarProdutosPorCategoria(@RequestParam String categoria){
+        List<produtos> resultado = produtosService.buscarProdutosPorCategoria(categoria);
+        return ResponseEntity.ok(resultado);
+    }
+
     @GetMapping("/listarTodos")
     public ResponseEntity<List<produtos>> listarTodos(){
         List<produtos> todos = produtosService.listarTodos();

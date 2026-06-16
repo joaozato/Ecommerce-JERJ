@@ -29,6 +29,9 @@ public class produtos {
     @Column(name = "Quantidade", nullable = false)
     private int quantidade;
 
+    @Column(name = "Categoria", nullable = false)
+    private String categoria;
+
     @Column(name = "PathImagem")
     private String pathImagem;
 
