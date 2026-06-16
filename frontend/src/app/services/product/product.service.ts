@@ -19,4 +19,11 @@ export class ProductService {
     const params = new HttpParams().set('nome', nome);
     return this.http.get<Product[]>(`${this.apiUrl}/buscar`, { params });
   }
+
+  searchById(id: number) {
+    return this.http.get<Product>(
+      `${this.apiUrl}/buscarID?id=${id}`
+    );
+  }
+
 }
