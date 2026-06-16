@@ -14,7 +14,7 @@ import lombok.*;
 
 public class produtos {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "Nome", nullable = false)
