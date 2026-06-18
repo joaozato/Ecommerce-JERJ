@@ -26,6 +26,9 @@ public class produtos {
     @Column(name = "Preço",  nullable = false)
     private float preco;
 
+    @Column(name = "Custo", nullable = false)
+    private float custo = 0.0f;
+
     @Column(name = "Quantidade", nullable = false)
     private int quantidade;
 
