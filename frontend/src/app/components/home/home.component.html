@@ -1,0 +1,86 @@
+<main class="home-page">
+  <app-header
+    [cartItems]="totalItensCarrinho"
+    (cartClick)="abrirCarrinho()"
+    (searchChange)="pesquisarProdutos($event)"
+  />
+
+  <aside class="cart-panel" *ngIf="carrinhoAberto" aria-label="Lista do carrinho">
+    <header class="cart-panel-header">
+      <h2>Carrinho</h2>
+      <span>{{ totalItensCarrinho }} item(ns)</span>
+    </header>
+
+    <p class="cart-empty" *ngIf="!itensCarrinho.length">Seu carrinho está vazio.</p>
+
+    <div class="cart-items" *ngIf="itensCarrinho.length">
+      <article class="cart-item" *ngFor="let item of itensCarrinho">
+        <div>
+          <h3>{{ item.produto.nome }}</h3>
+          <p>{{ item.produto.marca }}</p>
+          <strong>R$ {{ item.produto.preco | number:'1.2-2' }}</strong>
+        </div>
+
+        <div class="cart-item-actions">
+          <span>Qtd. {{ item.quantidade }}</span>
+          <button type="button" (click)="removerDoCarrinho(item.produto.id)">-</button>
+        </div>
+      </article>
+
+      <footer class="cart-total">
+        <span>Total</span>
+        <strong>R$ {{ totalCarrinho | number:'1.2-2' }}</strong>
+      </footer>
+    </div>
+  </aside>
+
+  <section class="hero" aria-label="Carrossel de banners">
+    <button class="carousel-button carousel-button--left" type="button" aria-label="Banner anterior" (click)="bannerAnterior()">
+      <svg lucideChevronLeft size="34" strokeWidth="2.7"></svg>
+    </button>
+
+    <div class="hero-image-slot" [class.hero-image-slot--empty]="!banners.length">
+      <img *ngIf="banners.length" [src]="banners[bannerAtual]" alt="Banner promocional" />
+    </div>
+
+    <button class="carousel-button carousel-button--right" type="button" aria-label="Próximo banner" (click)="proximoBanner()">
+      <svg lucideChevronRight size="34" strokeWidth="2.7"></svg>
+    </button>
+
+    <app-menu (menuClick)="abrirMenu()" />
+  </section>
+
+  <section class="best-sellers" aria-labelledby="best-sellers-title">
+    <div class="section-divider"></div>
+
+    <h2 id="best-sellers-title" class="section-title">
+      <span>MAIS VENDIDOS NO MÊS</span>
+      <svg lucideFlame size="23" strokeWidth="2.6"></svg>
+    </h2>
+
+    <div class="products-grid">
+      <article class="product-card" *ngFor="let produto of listaProdutos">
+        <div class="product-rating" aria-label="5 estrelas">
+          <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="18" strokeWidth="0" class="star-icon"></svg>
+          <span>({{ produto.avaliacoes }})</span>
+        </div>
+
+        <div class="product-image-slot" aria-hidden="true"></div>
+
+        <h3 class="product-name">{{ produto.nome }}</h3>
+        <p class="product-meta">{{ produto.marca }} - {{ produto.quantidade }} em estoque</p>
+
+        <footer class="product-footer">
+          <div>
+            <strong>R$ {{ produto.preco | number:'1.2-2' }}</strong>
+            <small>ou R$ {{ produto.valorParcela | number:'1.2-2' }} em {{ produto.parcelas }}x</small>
+          </div>
+
+          <button type="button" class="add-cart-button" (click)="adicionarAoCarrinho(produto)" [attr.aria-label]="'Adicionar ' + produto.nome + ' ao carrinho'">
+            <svg lucideShoppingCart size="22" strokeWidth="2.3"></svg>
+          </button>
+        </footer>
+      </article>
+    </div>
+  </section>
+</main>
