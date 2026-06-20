@@ -8,13 +8,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-
+import { LucideStar } from '@lucide/angular';
+import { InstallmentOption } from '../../models/installment.model'
 //import { AuthService } from '../../services/auth/auth.service';
 
-export interface InstallmentOption {
-  installments: number;
-  value: number;
-}
 
 @Component({
   standalone: true,
@@ -23,13 +20,14 @@ export interface InstallmentOption {
   imports: [
     CommonModule,             // <-- necessário para utilizar *ngIf e *ngFor
     DecimalPipe,
-
-  ]
+    LucideStar,
+  ],
 })
 
 
 
 export class ProductDetailsComponent implements OnInit {
+
 
   product?: Product;
 
@@ -44,18 +42,17 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     const id = Number(
-      this.route.snapshot.paramMap.get('id')
+      this.route.snapshot.paramMap.get('id') // Coleta o id do produto para enviar na url
     );
-
 
 
     this.productService
       .searchById(id)
       .subscribe(product => {
         this.product = product;
-        console.log(product)
+        // console.log(product)
         this.generateInstallments(product.preco);
-        this.cdr.detectChanges();
+        this.cdr.detectChanges(); // Re-render - Coloquei para evitar qualquer erro de renderizar sem os dados da API
       });
 
   }
@@ -63,7 +60,7 @@ export class ProductDetailsComponent implements OnInit {
   installmentOptions: InstallmentOption[] = [];
 
   generateInstallments(price: number) {
-    const max = 10;
+    const max = 10; // Máximo de parcelas
 
     this.installmentOptions = [];
 
@@ -74,6 +71,5 @@ export class ProductDetailsComponent implements OnInit {
       });
     }
 
-    console.log('INSTALLMENTS:', this.installmentOptions);
   }
 }

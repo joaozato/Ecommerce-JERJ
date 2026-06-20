@@ -12,10 +12,9 @@
     <div class="rounded-2xl bg-white p-4 shadow-lg sm:p-6 lg:p-8">
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
         <!-- IMAGEM DO PRODUTO -->
-        <div>
-          <!-- Imagem Principal -->
+         <div>
           <div class="flex h-[600px] items-center justify-center overflow-hidden rounded-xl bg-gray-200 sm:h-[600px] lg:h-[500px]">
-            <img src="{{product?.pathImagem}}" alt="Produto" class="object-fill" />
+            <img src="{{product?.pathImagem}}" alt="Produto" class="object-fit" />
           </div>
 
         </div>
@@ -57,23 +56,23 @@
 
           <!-- Especificações -->
           <div class="w-full lg:w-72">
-            <div class="rounded-xl bg-gray-200/60 p-5">
+            <div class="rounded-xl bg-gray-200/60 p-5 md:my-5">
               <h2 class="mb-4 text-lg font-bold text-gray-800">Especificações</h2>
 
               <ul class="space-y-3 text-sm text-gray-700">
-                <li><strong>Processador:</strong> Intel i7 14700H</li>
+                <li><strong>Processador:</strong> #</li>
 
-                <li><strong>Placa de Vídeo:</strong> RTX 4070 8GB</li>
+                <li><strong>Placa de Vídeo:</strong> #</li>
 
-                <li><strong>Memória:</strong> 32GB DDR5</li>
+                <li><strong>Memória:</strong> #</li>
 
-                <li><strong>Armazenamento:</strong> SSD NVMe 1TB</li>
+                <li><strong>Armazenamento:</strong> #</li>
 
-                <li><strong>Tela:</strong> 15.6" Full HD 165Hz</li>
+                <li><strong>Tela:</strong> #</li>
 
-                <li><strong>Sistema:</strong> Windows 11</li>
+                <li><strong>Sistema:</strong> #</li>
 
-                <li><strong>Peso:</strong> 2.3kg</li>
+                <li><strong>Peso:</strong> #</li>
               </ul>
             </div>
           </div>
@@ -82,47 +81,64 @@
     </div>
 
     <!-- AVALIAÇÕES -->
-    <section class="mt-10 lg:mt-14">
-      <h2 class="mb-6 text-2xl font-bold text-gray-900 lg:mb-8 lg:text-3xl">Avaliações</h2>
+    <section class="mt-10 lg:mt-14 rounded-2xl bg-white p-4 shadow-lg sm:p-6 lg:p-8">
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="flex items-center flex-wrap justify-between md:flex-nowrap ">
+        <h2 class="mb-6 text-2xl font-bold text-gray-900 lg:mb-8 lg:text-5xl">Avaliações</h2>
+        <div class="flex flex-wrap justify-between md:flex-nowrap  ">
+          <div class="border border-[#ff8f59] rounded-2xl p-2 mx-2 text-sm">5 estrelas (3)</div>
+          <div class="border border-[#ff8f59] rounded-2xl p-2 mx-2 text-sm">4 estrelas (0)</div>
+          <div class="border border-[#ff8f59] rounded-2xl p-2 mx-2 text-sm">3 estrelas (0)</div>
+          <div class="border border-[#ff8f59] rounded-2xl p-2 mx-2 text-sm">2 estrelas (1)</div>
+          <div class="border border-[#ff8f59] rounded-2xl p-2 mx-2 text-sm">1 estrela  (0)</div>
+        </div>
+      </div>
 
-        <div class="rounded-xl bg-white p-6 shadow">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-4">
 
-          <!-- Avaliação 1 -->
-          <div class="mb-3 text-xl text-yellow-400">★★★★☆</div>
-          <h3 class="mb-2 text-lg font-semibold">João Silva</h3>
-
-
-
-          <p class="text-gray-600">Produto excelente. Recomendo para quem busca alto desempenho.</p>
+         <!-- Avaliação 1 -->
+        <div class="rounded-xl bg-white p-6 shadow-lg">
+          <div class="mb-3 text-xl flex flex-wrap justify-between">
+            <h3 class="mb-2 text-lg font-semibold">João Silva</h3>
+            <div class="flex flex-wrap">
+                <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="18" strokeWidth="0" class="fill-current text-[#ff8f59]"></svg>
+            </div>
+          </div>
+            <p class="text-gray-600">Produto excelente. Recomendo para quem busca alto desempenho.</p>
         </div>
 
         <!-- Avaliação 2 -->
-        <div class="rounded-xl bg-white p-6 shadow">
-          <div class="mb-3 text-xl text-yellow-400">★★★★☆</div>
-
-          <h3 class="mb-2 text-lg font-semibold">Maria Oliveira</h3>
-
+        <div class="rounded-xl bg-white p-6 shadow-lg">
+          <div class="mb-3 text-xl flex flex-wrap justify-between">
+            <h3 class="mb-2 text-lg font-semibold">Maria Oliveira</h3>
+            <div class="flex flex-wrap">
+              <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="18" strokeWidth="0" class="fill-current text-[#ff8f59]"></svg>
+            </div>
+          </div>
           <p class="text-gray-600">Ótimo produto! Chegou antes do prazo e muito bem embalado.</p>
         </div>
 
+
         <!-- Avaliação 3 -->
-        <div class="rounded-xl bg-white p-6 shadow">
-          <div class="mb-3 text-xl text-yellow-400">★★★★★</div>
-
-          <h3 class="mb-2 text-lg font-semibold">Pedro Santos</h3>
-
+        <div class="rounded-xl bg-white p-6 shadow-lg">
+          <div class="mb-3 text-xl flex flex-wrap justify-between">
+            <h3 class="mb-2 text-lg font-semibold">Pedro Santos</h3>
+            <div class="flex flex-wrap">
+              <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="18" strokeWidth="0" class="fill-current text-[#ff8f59]"></svg>
+            </div>
+          </div>
           <p class="text-gray-600">Adorei!</p>
         </div>
 
         <!-- Avaliação 4 -->
-        <div class="rounded-xl bg-white p-6 shadow">
-          <div class="mb-3 text-xl text-yellow-400">★★★★★</div>
-
-          <h3 class="mb-2 text-lg font-semibold">Claudio Costa</h3>
-
-          <p class="text-gray-600">Excelente compra. Muito bonito.</p>
+        <div class="rounded-xl bg-white p-6 shadow-lg">
+          <div class="mb-3 text-xl flex flex-wrap justify-between">
+            <h3 class="mb-2 text-lg font-semibold">Claudio Costa</h3>
+            <div class="flex flex-wrap">
+              <svg lucideStar *ngFor="let star of [1, 2]" size="18" strokeWidth="0" class="fill-current text-[#ff8f59]"></svg>
+            </div>
+          </div>
+          <p class="text-gray-600">Produto não atendeu as minhas expectativas.</p>
         </div>
       </div>
     </section>
