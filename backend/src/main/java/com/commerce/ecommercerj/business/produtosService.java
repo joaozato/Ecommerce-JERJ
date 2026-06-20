@@ -90,7 +90,7 @@ public class produtosService {
     }
 
     @Transactional
-    public void processarCheckout(List<CheckoutItemDTO> itens) {
+    public Venda processarCheckout(List<CheckoutItemDTO> itens) {
         if (itens == null || itens.isEmpty()) {
             throw new RuntimeException("A lista de itens de checkout não pode ser vazia!");
         }
@@ -110,9 +110,11 @@ public class produtosService {
                 .dataHora(LocalDateTime.now())
                 .build();
 
-        vendaRepository.save(vendaFinal);
+        Venda vendaSalva = vendaRepository.save(vendaFinal);
 
         // Dispara o evento para atualizar o painel em tempo real
         eventPublisher.publishEvent(new VendaRealizadaEvent(this));
+
+        return vendaSalva;
     }
 }

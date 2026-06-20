@@ -3,6 +3,7 @@ package com.commerce.ecommercerj.controller;
 
 import com.commerce.ecommercerj.business.produtosService;
 import com.commerce.ecommercerj.infrastructure.entitys.produtos;
+import com.commerce.ecommercerj.infrastructure.entitys.Venda;
 import com.commerce.ecommercerj.dto.CheckoutItemDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -54,8 +55,8 @@ public class produtosController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Void> processarCheckout(@RequestBody List<CheckoutItemDTO> itens) {
-        produtosService.processarCheckout(itens);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Integer> processarCheckout(@RequestBody List<CheckoutItemDTO> itens) {
+        Venda venda = produtosService.processarCheckout(itens);
+        return ResponseEntity.ok(venda.getId());
     }
 }
