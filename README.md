@@ -1,384 +1,105 @@
-# Instruções para instalação do ambiente
+# 🛒 Ecommerce-JERJ
 
-# Backend - E-commerce | Guia de Configuração do Ambiente
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-## Visão Geral
-
-Este projeto consiste no desenvolvimento do backend de um sistema de E-commerce utilizando Java com Spring Boot, PostgreSQL e autenticação JWT.
-
-O objetivo é fornecer APIs para gerenciamento de usuários, autenticação, produtos, pedidos, estoque, comentários e funcionalidades administrativas.
-
-Tecnologias principais:
-
-* Java
-* Spring Boot
-* Spring Security
-* JWT
-* PostgreSQL
-
+Uma plataforma de e-commerce robusta e moderna, desenvolvida com foco em escalabilidade e experiência do usuário. O projeto utiliza uma arquitetura desacoplada com um backend em Spring Boot e um frontend SPA em Angular.
 
 ---
 
-# Pré-requisitos
+## 🚀 Funcionalidades
 
-Antes de iniciar, instale:
+### 👤 Área do Cliente
+* **Autenticação:** Sistema de login e cadastro seguro utilizando JWT (JSON Web Tokens).
+* **Catálogo de Produtos:** Visualização detalhada de produtos com filtros e categorias.
+* **Carrinho e Checkout:** Experiência de compra fluida.
+* **Histórico:** Acompanhamento de pedidos e histórico de compras.
+* **Social:** Sistema de avaliações e comentários em produtos.
 
-### Java JDK
-
-Verifique:
-
-```bash
-java -version
-```
-
-Versão recomendada:
-
-```bash
-Java 21
-```
-
-Download:
-
-[https://www.oracle.com/java/technologies/downloads/](https://www.oracle.com/java/technologies/downloads/)
-
-ou
-
-[https://adoptium.net/](https://adoptium.net/)
+### 🔐 Área Administrativa
+* **Dashboard:** Visão geral de métricas como lucro e desempenho.
+* **Gestão de Inventário:** Cadastro, edição e exclusão de produtos.
+* **Controle de Estoque:** Monitoramento em tempo real das quantidades disponíveis.
 
 ---
 
-### Maven
+## 🛠️ Tecnologias Utilizadas
 
-Verifique:
+### Backend
+* **Java 17** com **Spring Boot 4.0**
+* **Spring Security** para autenticação e autorização
+* **Spring Data JPA** para persistência de dados
+* **PostgreSQL** como banco de dados relacional
+* **Lombok** para redução de código boilerplate
+* **JJWT** para geração e validação de tokens JWT
 
-```bash
-mvn -version
-```
-
-Download:
-
-[https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi)
-
----
-
-### PostgreSQL
-
-Verifique:
-
-```bash
-psql --version
-```
-
-Download:
-
-[https://www.postgresql.org/download/](https://www.postgresql.org/download/)
-
-Versão sugerida:
-
-```text
-PostgreSQL 16+
-```
+### Frontend
+* **Angular** (Versão 21+)
+* **Tailwind CSS** para estilização moderna e responsiva
+* **RxJS** para programação reativa
+* **TypeScript** para tipagem estática e segurança
 
 ---
 
-### IntelliJ IDEA
+## ⚙️ Como Executar o Projeto
 
-IDE recomendada:
+### Pré-requisitos
+* Java JDK 17
+* Maven 3.x
+* Node.js & npm (v20+)
+* PostgreSQL 16+
 
-Community ou Ultimate.
-
-Download:
-
-[https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/)
-
----
-
-### Postman
-
-Ferramenta para testar endpoints.
-
-[https://www.postman.com/](https://www.postman.com/)
-
----
-
-# Clonar projeto
-
-```bash
-git clone URL_DO_REPOSITORIO
-```
-
-Entrar na pasta:
-
-```bash
-cd ecommerce-backend
-```
-
----
-
-# Criar projeto Spring Boot
-
-Acessar:
-
-[https://start.spring.io/](https://start.spring.io/)
-
-Configurações:
-
-Project:
-
-```text
-Maven
-```
-
-Language:
-
-```text
-Java
-```
-
-Spring Boot:
-
-```text
-3.x
-```
-
-Group:
-
-```text
-com.ecommerce
-```
-
-Artifact:
-
-```text
-ecommerce
-```
-
-Packaging:
-
-```text
-Jar
-```
-
-Java:
-
-```text
-21
-```
-
-Adicionar dependências:
-
-* Spring Web
-* Spring Security
-* Spring Data JPA
-* PostgreSQL Driver
-* Lombok
-* Validation
-* JWT
-
-Gerar projeto.
-
----
-
-# Estrutura do projeto
-
-Organização recomendada:
-
-```text
-src/main/java/com/ecommerce
-
-├── config
-├── controller
-├── dto
-├── entity
-├── repository
-├── service
-├── security
-├── exception
-├── util
-```
-
-Descrição:
-
-controller
-→ recebe requisições HTTP
-
-service
-→ regras de negócio
-
-repository
-→ acesso ao banco
-
-entity
-→ tabelas
-
-security
-→ JWT e autenticação
-
-dto
-→ objetos de entrada/saída
-
----
-
-# Configurar PostgreSQL
-
-Criar banco:
-
-```sql
-CREATE DATABASE ecommerce;
-```
-
-Criar usuário:
-
-```sql
-CREATE USER ecommerce_user
-WITH PASSWORD '123456';
-
-GRANT ALL PRIVILEGES
-ON DATABASE ecommerce
-TO ecommerce_user;
-```
-
----
-
-# Configurar application.properties
-
-Local:
-
-```text
-src/main/resources/application.properties
-```
-
-Adicionar:
+### 1. Configuração do Banco de Dados
+Crie um banco de dados no PostgreSQL chamado `ecommerce`. Configure o arquivo `backend/src/main/resources/application.properties` com suas credenciais:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce
-spring.datasource.username=ecommerce_user
-spring.datasource.password=123456
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-
-jwt.secret=sua_chave_super_secreta
-jwt.expiration=86400000
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
 ```
 
----
-
-# Rodando aplicação
-
-Via IntelliJ:
-
-Executar:
-
-```text
-EcommerceApplication.java
-```
-
-Ou terminal:
-
+### 2. Executando o Backend
 ```bash
+cd backend
+mvn clean install
 mvn spring-boot:run
 ```
 
-Aplicação disponível:
-
-```text
-http://localhost:8080
+### 3. Executando o Frontend
+```bash
+cd frontend
+npm install
+npm start
 ```
+O frontend estará disponível em `http://localhost:4200`.
 
 ---
 
-# Endpoints planejados
+## 🛣️ Endpoints Principais (API)
 
-Autenticação:
-
-```text
-POST /auth/register
-POST /auth/login
-```
-
-Produtos:
-
-```text
-GET /produtos
-GET /produtos/{id}
-POST /produtos
-PUT /produtos/{id}
-DELETE /produtos/{id}
-```
-
-Compras:
-
-```text
-POST /comprar
-```
-
-Pedidos:
-
-```text
-GET /pedido/{id}
-GET /historico
-```
-
-Comentários:
-
-```text
-POST /comentarios
-GET /produto/{id}/comentarios
-```
-
-Admin:
-
-```text
-GET /admin/lucro
-```
+| Método | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/auth/login` | Autenticação de usuário |
+| `POST` | `/auth/register` | Cadastro de novo usuário |
+| `GET` | `/produtos` | Lista todos os produtos |
+| `POST` | `/produtos` | Cadastro de produto (Admin) |
+| `POST` | `/comprar` | Finalização de compra |
+| `GET` | `/admin/lucro` | Visualização de métricas (Admin) |
 
 ---
 
-# Regras do sistema
 
-Usuário:
 
-* Cadastro com nome, e-mail e CPF fictício
-* Login via JWT
-* Comprar produtos
-* Acompanhar pedido
-* Histórico de compras
-* Avaliar produtos
-* Comentar produtos comprados
-
-Admin:
-
-* Login administrativo
-* Cadastro de produtos
-* Visualização de lucro
-* Controle de estoque
+**Desenvolvedores:**
+- José Filipe Marques (🔗 *https://github.com/JHOWSEF* \)
+- Eduardo Pires(🔗 *https://github.com/EOEDUZADA*)
+- João Rodrigues(🔗 *https://github.com/joaozato*)
+- Rafaela Nunes (🔗 *https://github.com/rfanunes*)
 
 ---
 
-# Fluxo geral
-
-```text
-Front-end
-    ↓
-Controller
-    ↓
-Service
-    ↓
-Repository
-    ↓
-PostgreSQL
-```
-
----
-
-# Membros do projeto
-
-Adicionar integrantes do grupo aqui.
-
----
-
-# Observações
-
-Este documento poderá sofrer alterações durante o desenvolvimento do projeto.
+## 📝 Observações
+Este projeto é um trabalho acadêmico/experimental e está em constante evolução. Sinta-se à vontade para explorar e contribuir!
