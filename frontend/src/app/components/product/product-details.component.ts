@@ -31,7 +31,7 @@ interface HomeProduct extends Product {
   parcelas: number;
 }
 
-interface ProductDetailsCartItem {
+interface CartItem {
   produto: HomeProduct;
   quantidade: number;
 }
