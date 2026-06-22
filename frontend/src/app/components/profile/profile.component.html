@@ -1,0 +1,56 @@
+<main class="profile-page">
+  <app-header [cartItems]="0" />
+
+  <app-breadcrumb [items]="breadcrumbItems" />
+
+  <app-menu />
+
+  <section class="profile-summary" aria-label="Dados do perfil">
+    <article class="profile-box">
+      <h1>Perfil</h1>
+      <p>Nome: {{ profile.nome }}</p>
+      <p>Telefone: {{ profile.telefone }}</p>
+      <p>E-Mail: {{ profile.email }}</p>
+    </article>
+
+    <article class="profile-box profile-box--address">
+      <h2>Endereços salvos</h2>
+      <p>Nome: {{ savedAddress.nome }}</p>
+      <p>Telefone: {{ savedAddress.telefone }}</p>
+      <p>E-Mail: {{ savedAddress.email }}</p>
+    </article>
+  </section>
+
+  <section class="orders-panel" aria-labelledby="orders-title">
+    <h2 id="orders-title">Meus pedidos</h2>
+
+    <div class="orders-list">
+      <article class="order-card" *ngFor="let order of orders">
+        <div class="order-image" aria-hidden="true"></div>
+
+        <div class="order-info">
+          <h3>{{ order.produto }}</h3>
+          <strong>R$ {{ order.preco | number:'1.2-2' }}</strong>
+          <p>Comprado em {{ order.dataCompra }}</p>
+        </div>
+
+        <div class="tracking">
+          <h4>Rastreio</h4>
+          <ol>
+            <li class="tracking-step tracking-step--active">
+              <span></span>
+              Saiu da filial
+            </li>
+            <li class="tracking-step tracking-step--middle">
+              <span></span>
+            </li>
+            <li class="tracking-step tracking-step--active">
+              <span></span>
+              {{ order.status }}
+            </li>
+          </ol>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
