@@ -25,4 +25,8 @@ public class Venda {
 
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private usuarios usuario;
 }

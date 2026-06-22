@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/produtos")
@@ -55,8 +56,8 @@ public class produtosController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Integer> processarCheckout(@RequestBody List<CheckoutItemDTO> itens) {
-        Venda venda = produtosService.processarCheckout(itens);
+    public ResponseEntity<Integer> processarCheckout(@RequestBody List<CheckoutItemDTO> itens, Authentication authentication) {
+        Venda venda = produtosService.processarCheckout(itens, authentication.getName());
         return ResponseEntity.ok(venda.getId());
     }
 }
