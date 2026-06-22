@@ -15,7 +15,7 @@
   right: 0;
   z-index: 30;
   display: grid;
-  grid-template-columns: 40px 126px minmax(140px, 1fr) 136px;
+  grid-template-columns: 126px minmax(140px, 1fr) 136px 40px;
   gap: 12px;
   align-items: center;
   min-height: 67px;
@@ -114,12 +114,8 @@
 
 @media (max-width: 760px) {
   .topbar {
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: 1fr auto auto;
     gap: 8px;
-  }
-
-  .cart-button {
-    justify-self: end;
   }
 
   .search-bar {
@@ -130,7 +126,7 @@
 
 @media (max-width: 460px) {
   .topbar {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto auto;
     gap: 6px;
   }
 
