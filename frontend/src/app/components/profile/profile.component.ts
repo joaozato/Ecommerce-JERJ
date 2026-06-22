@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { PedidoTrackingService, PedidoTrackingStatus } from '../../services/pedido-tracking/pedido-tracking.service';
 
 interface ProfileInfo {
@@ -27,7 +26,6 @@ interface OrderItem {
     CommonModule,
     BreadcrumbComponent,
     HeaderComponent,
-    MenuComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',

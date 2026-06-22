@@ -15,11 +15,11 @@
   right: 0;
   z-index: 30;
   display: grid;
-  grid-template-columns: 126px minmax(140px, 1fr) 136px;
+  grid-template-columns: 40px 126px minmax(140px, 1fr) 136px;
   gap: 12px;
   align-items: center;
   min-height: 67px;
-  padding: 8px 5px;
+  padding: 8px 8px;
   background: #ff8548;
 }
 
@@ -114,8 +114,12 @@
 
 @media (max-width: 760px) {
   .topbar {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto auto 1fr;
     gap: 8px;
+  }
+
+  .cart-button {
+    justify-self: end;
   }
 
   .search-bar {
@@ -126,6 +130,20 @@
 
 @media (max-width: 460px) {
   .topbar {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr auto;
+    gap: 6px;
+  }
+
+  .brand {
+    gap: 8px;
+    padding: 0 6px;
+  }
+
+  .brand-name {
+    display: none;
+  }
+
+  .cart-button {
+    padding: 0 35px 0 8px;
   }
 }
