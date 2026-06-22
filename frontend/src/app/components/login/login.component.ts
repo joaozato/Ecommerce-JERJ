@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
-import {SubmitButtonComponent} from '../../shared/SubmitButton/submit-button.component';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {  SubmitButtonComponent } from '../../shared/SubmitButton/submit-button.component';
+import {  CommonModule  } from '@angular/common';
+import {  FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,8 @@ import {FormsModule} from '@angular/forms';
   imports: [
     CommonModule,             // <-- Necessário para utilizar *ngIf e *ngFor no html
     FormsModule,              // <-- Necessário para utilizar [(ngModel)] no html
-    SubmitButtonComponent     // <-- Necessário para utilizar o component de botão shared no html
+    SubmitButtonComponent,     // <-- Necessário para utilizar o component de botão shared no html
+    RouterLink,
   ]
 })
 export class LoginComponent {
