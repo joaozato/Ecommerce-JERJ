@@ -1,0 +1,147 @@
+<app-header [cartItems]="cartItems" />
+<div class="bg-gray-50"><app-breadcrumb [items]="breadcrumbItems" /></div>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+
+  <app-menu />
+
+  <!-- Formulario -->
+  <form
+    (ngSubmit)="addProduct()"
+    #form="ngForm"
+    class="w-full max-w-4xl bg-white border border-gray-100 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.06)] p-10"
+  >
+
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+        Novo Produto
+      </h1>
+
+    </div>
+
+    <!-- Campos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Nome do Produto
+        </label>
+
+        <input
+          type="text"
+          name="nome"
+          [(ngModel)]="product.nome"
+          required
+          placeholder="MacBook Pro M4"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:border-[#EF8354] focus:ring-4 focus:ring-orange-100 outline-none transition"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Marca
+        </label>
+
+        <input
+          type="text"
+          name="marca"
+          [(ngModel)]="product.marca"
+          required
+          placeholder="Apple"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 focus:border-[#EF8354] focus:ring-4 focus:ring-orange-100 outline-none transition"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Categoria
+        </label>
+
+        <input
+          type="text"
+          name="categoria"
+          [(ngModel)]="product.categoria"
+          required
+          placeholder="Notebook"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 focus:border-[#EF8354] focus:ring-4 focus:ring-orange-100 outline-none transition"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Preço de Venda
+        </label>
+
+        <input
+          type="number"
+          name="preco"
+          [(ngModel)]="product.preco"
+          required
+          placeholder="0.00"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 focus:border-[#EF8354] focus:ring-4 focus:ring-orange-100 outline-none transition"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Custo
+        </label>
+
+        <input
+          type="number"
+          name="custo"
+          [(ngModel)]="product.custo"
+          required
+          placeholder="0.00"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 focus:border-[#EF8354] focus:ring-4 focus:ring-orange-100 outline-none transition"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Quantidade em Estoque
+        </label>
+
+        <input
+          type="number"
+          name="quantidade"
+          [(ngModel)]="product.quantidade"
+          required
+          placeholder="0"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 focus:border-[#EF8354] focus:ring-4 focus:ring-orange-100 outline-none transition"
+        />
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          URL da Imagem
+        </label>
+
+        <input
+          type="text"
+          name="pathImagem"
+          [(ngModel)]="product.pathImagem"
+          required
+          placeholder="https://exemplo.com/imagem.jpg"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 focus:border-[#EF8354] focus:ring-4 focus:ring-orange-100 outline-none transition"
+        />
+      </div>
+
+    </div>
+
+
+    <div class="flex justify-end mt-10 pt-8 border-t border-gray-100">
+
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        class="px-8 py-3 rounded-2xl bg-[#EF8354] text-white font-semibold shadow-lg shadow-orange-200 hover:scale-[1.02] hover:bg-orange-600 active:scale-[0.98] disabled:bg-gray-300 disabled:shadow-none transition-all"
+      >
+        Salvar Produto
+      </button>
+
+    </div>
+
+  </form>
+
+</div>

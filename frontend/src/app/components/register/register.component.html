@@ -29,6 +29,19 @@
         </div>
 
         <div>
+          <label class="block text-sm font-medium mb-1" for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Seu email"
+            required
+            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
           <label class="block text-sm font-medium mb-1" for="cpf">CPF</label>
           <input
             type="text"
@@ -53,6 +66,8 @@
             class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+
+        <div routerLink="/login" class="text-sm text-cyan-700">Já possui uma conta? Login</div>
 
         <div class="mt-6">
           <submit-button type="submit" [disabled]="loading" label="Registrar" color="orange"></submit-button>

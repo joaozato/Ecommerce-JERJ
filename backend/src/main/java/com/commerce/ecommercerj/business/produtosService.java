@@ -2,8 +2,10 @@ package com.commerce.ecommercerj.business;
 
 import com.commerce.ecommercerj.infrastructure.entitys.produtos;
 import com.commerce.ecommercerj.infrastructure.entitys.Venda;
+import com.commerce.ecommercerj.infrastructure.entitys.usuarios;
 import com.commerce.ecommercerj.infrastructure.repository.produtosRepository;
 import com.commerce.ecommercerj.infrastructure.repository.VendaRepository;
+import com.commerce.ecommercerj.infrastructure.repository.usuariosRepository;
 import com.commerce.ecommercerj.dto.VendaRealizadaEvent;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -20,11 +22,13 @@ public class produtosService {
     private final produtosRepository repository;
     private final VendaRepository vendaRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final usuariosRepository userRepository;
 
-    public produtosService(produtosRepository repository, VendaRepository vendaRepository, ApplicationEventPublisher eventPublisher) {
+    public produtosService(produtosRepository repository, VendaRepository vendaRepository, ApplicationEventPublisher eventPublisher, usuariosRepository userRepository) {
         this.repository = repository;
         this.vendaRepository = vendaRepository;
         this.eventPublisher = eventPublisher;
+        this.userRepository = userRepository;
     }
 
     public void salvaProduto(produtos produtos) {
@@ -32,28 +36,15 @@ public class produtosService {
     }
 
     public List<produtos> buscarProdutopornome(String nome) {
-        List<produtos> busca = (List<produtos>) repository.findByNomeContainingIgnoreCase(nome);
-        if (busca.isEmpty()) {
-            throw new RuntimeException("Nenhum produto encontrado com esse nome!");
-        }
-        return busca;
+        return (List<produtos>) repository.findByNomeContainingIgnoreCase(nome);
     }
 
     public List<produtos> buscarProdutosPorCategoria(String categoria) {
-        List<produtos> busca = repository.findByCategoriaContainingIgnoreCase(categoria);
-        if (busca.isEmpty()) {
-            throw new RuntimeException("Nenhum produto listado nessa categoria!!");
-        }
-        return busca;
+        return repository.findByCategoriaContainingIgnoreCase(categoria);
     }
 
     public List<produtos> listarTodos() {
-        List<produtos> lista = repository.findAll();
-
-        if (lista.isEmpty()) {
-            throw new RuntimeException("Nenhum produto no estoque!");
-        }
-        return lista;
+        return repository.findAll();
     }
 
     public void deletaProduto(Integer id) {
@@ -90,10 +81,13 @@ public class produtosService {
     }
 
     @Transactional
-    public void processarCheckout(List<CheckoutItemDTO> itens) {
+    public Venda processarCheckout(List<CheckoutItemDTO> itens, String email) {
         if (itens == null || itens.isEmpty()) {
             throw new RuntimeException("A lista de itens de checkout não pode ser vazia!");
         }
+
+        usuarios user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
         float totalFaturamento = 0f;
         float totalLucro = 0f;
@@ -108,11 +102,14 @@ public class produtosService {
                 .faturamento(totalFaturamento)
                 .lucroLiquido(totalLucro)
                 .dataHora(LocalDateTime.now())
+                .usuario(user)
                 .build();
 
-        vendaRepository.save(vendaFinal);
+        Venda vendaSalva = vendaRepository.save(vendaFinal);
 
         // Dispara o evento para atualizar o painel em tempo real
         eventPublisher.publishEvent(new VendaRealizadaEvent(this));
+
+        return vendaSalva;
     }
 }

@@ -1,0 +1,24 @@
+<article class="product-card" [class.product-card--compact]="compact" [routerLink]="['/product', product.id]">
+  <div class="product-rating" aria-label="5 estrelas">
+    <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="18" strokeWidth="0" class="star-icon"></svg>
+    <span *ngIf="!compact">({{ product.avaliacoes }})</span>
+  </div>
+
+  <div class="product-image-slot" [attr.aria-hidden]="product.pathImagem ? null : true">
+    <img *ngIf="product.pathImagem" [src]="product.pathImagem" [alt]="product.nome" />
+  </div>
+
+  <h3 class="product-name" *ngIf="!compact">{{ product.nome }}</h3>
+  <p class="product-meta" *ngIf="!compact">{{ product.marca }} - {{ product.quantidade }} em estoque</p>
+
+  <footer class="product-footer">
+    <div>
+      <strong>R$ {{ product.preco | number:'1.2-2' }}</strong>
+      <small>ou R$ {{ product.valorParcela | number:'1.2-2' }} em {{ product.parcelas }}x</small>
+    </div>
+
+    <button type="button" class="add-cart-button" (click)="onAddToCart($event)" [attr.aria-label]="'Adicionar ' + product.nome + ' ao carrinho'">
+      <svg lucideShoppingCart size="22" strokeWidth="2.3"></svg>
+    </button>
+  </footer>
+</article>

@@ -1,12 +1,174 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<app-header [cartItems]="cartItems" />
+<div><app-breadcrumb [items]="breadcrumbItems" /></div>
 
-<div class="text-red-500">Isso é uma página somente para ADMINS</div>
+<div class="min-h-screen mx-auto max-w-7xl flex">
 
-</body>
-</html>
+  <app-menu />
+
+  <main class="flex-1 p-8">
+
+    <div class="flex justify-between items-center mb-8">
+
+      <div>
+        <h2 class="text-3xl font-bold text-gray-800">
+          Dashboard
+        </h2>
+      </div>
+
+      <button
+        routerLink="/admin/addProduct"
+        class="bg-[#EF8354] text-white px-5 py-3 rounded-xl hover:scale-[1.02] hover:bg-orange-600 active:scale-[0.98] shadow"
+      >
+        + Novo Produto
+      </button>
+
+    </div>
+
+    <!-- CARDS -->
+
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+
+        <p class="text-gray-500">
+          Faturamento
+        </p>
+
+        <h3 class="text-3xl font-bold text-blue-600 mt-3">
+          R$
+          {{revenue | number:'1.2-2'}}
+        </h3>
+
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+
+        <p class="text-gray-500">
+          Lucro líquido
+        </p>
+
+        <h3 class="text-3xl font-bold text-green-600 mt-3">
+          R$
+          {{profit | number:'1.2-2'}}
+        </h3>
+
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+
+        <p class="text-gray-500">
+          Produtos
+        </p>
+
+        <h3 class="text-3xl font-bold mt-3">
+          {{products.length}}
+        </h3>
+
+      </div>
+
+    </div>
+
+    <!-- TABELA -->
+
+    <section class="bg-white rounded-2xl shadow-sm overflow-hidden">
+
+      <div class="p-6">
+        <h3 class="text-xl font-bold">
+          Produtos cadastrados
+        </h3>
+      </div>
+
+      <table class="w-full">
+
+        <thead class="bg-gray-50">
+
+        <tr>
+
+          <th class="p-4 text-left">
+            Produto
+          </th>
+
+          <th class="p-4">
+            Preço
+          </th>
+
+          <th class="p-4">
+            Estoque
+          </th>
+
+          <th class="p-4">
+            Ações
+          </th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        @for(product of products; track product.id){
+
+        <tr class="hover:bg-gray-50">
+
+          <td routerLink="/product/{{product.id}}" class="p-4">
+
+            <div class="flex gap-4 items-center">
+
+              <img
+                [src]="product.pathImagem"
+                class="w-14 h-14 rounded-xl object-cover"
+              >
+
+              <div>
+
+                <p class="font-semibold">
+                  {{product.nome}}
+                </p>
+
+                <p class="text-gray-400 text-sm">
+                  {{product.marca}}
+                </p>
+
+              </div>
+
+            </div>
+
+          </td>
+
+          <td class="text-center">
+            R$
+            {{product.preco}}
+          </td>
+
+          <td class="text-center">
+
+              <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                {{product.quantidade}}
+              </span>
+
+          </td>
+
+          <td class="text-center">
+
+            <button
+              (click)="deleteProduct(product.id)"
+              class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+            >
+              Excluir
+            </button>
+
+          </td>
+
+        </tr>
+
+        }
+
+        </tbody>
+
+      </table>
+
+    </section>
+
+  </main>
+
+</div>

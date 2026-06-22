@@ -3,12 +3,14 @@ package com.commerce.ecommercerj.controller;
 
 import com.commerce.ecommercerj.business.produtosService;
 import com.commerce.ecommercerj.infrastructure.entitys.produtos;
+import com.commerce.ecommercerj.infrastructure.entitys.Venda;
 import com.commerce.ecommercerj.dto.CheckoutItemDTO;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/produtos")
@@ -54,8 +56,8 @@ public class produtosController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Void> processarCheckout(@RequestBody List<CheckoutItemDTO> itens) {
-        produtosService.processarCheckout(itens);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Integer> processarCheckout(@RequestBody List<CheckoutItemDTO> itens, Authentication authentication) {
+        Venda venda = produtosService.processarCheckout(itens, authentication.getName());
+        return ResponseEntity.ok(venda.getId());
     }
 }

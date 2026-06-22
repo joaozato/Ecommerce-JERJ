@@ -4,24 +4,16 @@ import {
   LucideChevronLeft,
   LucideChevronRight,
   LucideFlame,
-  LucideShoppingCart,
-  LucideStar,
 } from '@lucide/angular';
+import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
+import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
+import { CartService } from '../../services/cart/cart.service';
 
-interface HomeProduct extends Product {
-  avaliacoes: number;
-  valorParcela: number;
-  parcelas: number;
-}
-
-interface CartItem {
-  produto: HomeProduct;
-  quantidade: number;
-}
+type HomeProduct = ProductCardItem;
 
 @Component({
   selector: 'app-home',
@@ -30,31 +22,32 @@ interface CartItem {
   standalone: true,
   imports: [
     CommonModule,
+    CartModalComponent,
     HeaderComponent,
     LucideChevronLeft,
     LucideChevronRight,
     LucideFlame,
-    LucideShoppingCart,
-    LucideStar,
     MenuComponent,
+    ProductCardComponent,
   ],
 })
 export class HomeComponent implements OnInit {
 
   listaProdutos: HomeProduct[] = [];
-  itensCarrinho: CartItem[] = [];
   carrinhoAberto = false;
-  totalItensCarrinho = 0;
   bannerAtual = 0;
   banners: string[] = [];
   private readonly produtosBase: HomeProduct[] = [
-    { id: 1, nome: 'Produto destaque 1', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 2, nome: 'Produto destaque 2', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 3, nome: 'Produto destaque 3', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 4, nome: 'Produto destaque 4', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
+    { id: 1, nome: 'Produto destaque 1', marca: 'Marca', preco: 150.5, custo: 0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem: '' },
+    { id: 2, nome: 'Produto destaque 2', marca: 'Marca', preco: 150.5, custo: 0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem: '' },
+    { id: 3, nome: 'Produto destaque 3', marca: 'Marca', preco: 150.5, custo: 0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem: '' },
+    { id: 4, nome: 'Produto destaque 4', marca: 'Marca', preco: 150.5, custo: 0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem: '' },
   ];
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) { }
 
   ngOnInit(): void {
     this.listaProdutos = this.produtosBase;
@@ -69,18 +62,7 @@ export class HomeComponent implements OnInit {
   }
 
   adicionarAoCarrinho(produto: HomeProduct) {
-    const itemCarrinho = this.itensCarrinho.find((item) => item.produto.id === produto.id);
-
-    if (itemCarrinho) {
-      itemCarrinho.quantidade += 1;
-    } else {
-      this.itensCarrinho = [
-        ...this.itensCarrinho,
-        { produto, quantidade: 1 },
-      ];
-    }
-
-    this.atualizarTotalItensCarrinho();
+    this.cartService.add(produto);
     this.carrinhoAberto = true;
     console.log('Adicionou ao carrinho:', produto.nome);
   }
@@ -89,22 +71,8 @@ export class HomeComponent implements OnInit {
     this.carrinhoAberto = !this.carrinhoAberto;
   }
 
-  removerDoCarrinho(produtoId: number) {
-    this.itensCarrinho = this.itensCarrinho
-      .map((item) => item.produto.id === produtoId
-        ? { ...item, quantidade: item.quantidade - 1 }
-        : item
-      )
-      .filter((item) => item.quantidade > 0);
-
-    this.atualizarTotalItensCarrinho();
-  }
-
-  get totalCarrinho() {
-    return this.itensCarrinho.reduce(
-      (total, item) => total + item.produto.preco * item.quantidade,
-      0
-    );
+  get totalItensCarrinho() {
+    return this.cartService.countItems();
   }
 
   pesquisarProdutos(termo: string) {
@@ -153,12 +121,5 @@ export class HomeComponent implements OnInit {
       valorParcela: produto.preco / 5,
       parcelas: 5,
     }));
-  }
-
-  private atualizarTotalItensCarrinho() {
-    this.totalItensCarrinho = this.itensCarrinho.reduce(
-      (total, item) => total + item.quantidade,
-      0
-    );
   }
 }

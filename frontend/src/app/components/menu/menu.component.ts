@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { LucideMenu, LucideUserRound } from '@lucide/angular';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, LucideMenu, LucideUserRound],
+  imports: [CommonModule, RouterLink, LucideMenu, LucideUserRound],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
 })
@@ -19,8 +20,8 @@ export class MenuComponent {
   };
   categories = [
     ['Tecnologia', 'Celulares', 'Moda'],
-    ['Livros', 'Infantil', 'Móveis'],
-    ['Casa', 'Música', 'Beleza'],
+    ['Livros', 'Infantil', 'Moveis'],
+    ['Casa', 'Musica', 'Beleza'],
   ];
 
   private dragStart = {
@@ -92,5 +93,9 @@ export class MenuComponent {
 
   private clamp(value: number, min: number, max: number) {
     return Math.min(Math.max(value, min), max);
+  }
+
+  categoryRoute(category: string) {
+    return ['/categoria', category.toLowerCase().replace(/\s+/g, '-')];
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -12,7 +12,8 @@ import { SubmitButtonComponent } from '../../shared/SubmitButton/submit-button.c
   imports: [
     CommonModule,             // <-- necessário para utilizar *ngIf e *ngFor
     FormsModule,              // <-- necessário para utilizar [(ngModel)]
-    SubmitButtonComponent     // <-- botão de submit importado da pasta shared
+    SubmitButtonComponent,     // <-- botão de submit importado da pasta shared
+    RouterLink,
   ]
 })
 export class RegisterComponent {
