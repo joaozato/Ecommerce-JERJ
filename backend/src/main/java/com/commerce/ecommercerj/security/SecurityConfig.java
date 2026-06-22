@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll() // Rota de login livre
                         .requestMatchers(HttpMethod.POST, "/usuarios/Cadastro").permitAll() // Cadastro livre
-                        .requestMatchers(HttpMethod.POST, "/produtos/checkout").permitAll() // Checkout livre para todos
+                        .requestMatchers(HttpMethod.POST, "/produtos/checkout").authenticated() // Checkout exige login
                         //.requestMatchers(HttpMethod.POST, "/produtos").hasRole("ADMIN") // Apenas ADMIN cadastra produto
                         //.requestMatchers(HttpMethod.DELETE, "/produtos").hasRole("ADMIN") // Apenas ADMIN deleta produto
                         .anyRequest().permitAll() // Demais rotas (como GET produtos) liberadas

@@ -49,4 +49,8 @@ export class CartService {
       0
     );
   }
+
+  clear() {
+    this.items = [];
+  }
 }

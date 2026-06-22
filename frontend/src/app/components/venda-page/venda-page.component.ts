@@ -11,6 +11,7 @@ import {
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
 import { CartItem, CartService } from '../../services/cart/cart.service';
+import { ProductService } from '../../services/product/product.service';
 
 type CheckoutStep = 'delivery' | 'payment' | 'success';
 
@@ -41,7 +42,8 @@ export class VendaPageComponent {
 
   constructor(
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private productService: ProductService
   ) {
     this.cartItems = this.cartService.getItems();
   }
@@ -71,7 +73,21 @@ export class VendaPageComponent {
   }
 
   finishPurchase() {
-    this.currentStep = 'success';
+    const checkoutItems = this.cartItems.map(item => ({
+      id: item.produto.id,
+      quantidade: item.quantidade
+    }));
+
+    this.productService.checkout(checkoutItems).subscribe({
+      next: () => {
+        this.cartService.clear();
+        this.cartItems = [];
+        this.currentStep = 'success';
+      },
+      error: (err) => {
+        console.error('Erro ao realizar o checkout:', err);
+      }
+    });
   }
 
   goHome() {

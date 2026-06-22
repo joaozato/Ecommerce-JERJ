@@ -34,10 +34,12 @@ export const routes: Routes = [
   {
     path: 'venda-page',
     component: VendaPageComponent,
+    canActivate: [AuthGuard()]
   },
   {
     path: 'venda',
     component: VendaPageComponent,
+    canActivate: [AuthGuard()]
   },
   {
     path: 'categoria/:categoria',
