@@ -72,10 +72,14 @@
 
       <label class="field field--wide">
         <span><svg lucideInfo size="12"></svg> Qual o método de pagamento?</span>
-        <input type="text" />
+        <select [(ngModel)]="paymentMethod" name="paymentMethod">
+          <option value="" selected disabled>Selecione...</option>
+          <option value="credito">Cartão de crédito</option>
+          <option value="pix">Pix</option>
+        </select>
       </label>
 
-      <div class="form-row form-row--card">
+      <div class="form-row form-row--card" *ngIf="!isPixPayment">
         <label class="field">
           <span><svg lucideInfo size="12"></svg> Número do cartão</span>
           <input type="text" />
@@ -93,7 +97,7 @@
           <input type="text" />
         </label>
 
-        <label class="field">
+        <label class="field" *ngIf="!isPixPayment">
           <span><svg lucideInfo size="12"></svg> Vencimento</span>
           <input type="text" />
         </label>
@@ -143,4 +147,14 @@
       <button type="button" (click)="goHome()">VOLTAR PARA O HOME</button>
     </div>
   </section>
+  <div class="pix-modal-backdrop" *ngIf="showPixQrCode" role="dialog" aria-modal="true" aria-label="Pagamento via Pix">
+    <section class="pix-modal">
+      <h2>Pagamento via Pix</h2>
+      <p>Escaneie o QR Code para concluir a compra.</p>
+
+      <img class="pix-qr-code" src="/extended.svg" alt="QR Code Pix" />
+
+      <small>O pop up sumirá em {{ pixSecondsRemaining }} segundos.</small>
+    </section>
+  </div>
 </main>
