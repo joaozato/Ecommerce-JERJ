@@ -127,6 +127,13 @@
   list-style: none;
 }
 
+.tracking-loading {
+  margin: 0;
+  color: #6d7482;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .tracking-step {
   display: flex;
   align-items: center;
@@ -141,22 +148,13 @@
   height: 10px;
   margin-right: 8px;
   border-radius: 999px;
-  background: #2d3144;
+  background: #f47f4d;
 }
 
 .tracking-step--active span {
   width: 14px;
   height: 14px;
   background: #f47f4d;
-}
-
-.tracking-step--middle {
-  min-height: 13px;
-}
-
-.tracking-step--middle span {
-  width: 7px;
-  height: 7px;
 }
 
 @media (max-width: 860px) {

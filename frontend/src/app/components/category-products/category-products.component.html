@@ -1,5 +1,7 @@
 <main class="category-page">
-  <app-header [cartItems]="cartItems" />
+  <app-header [cartItems]="cartItems" (cartClick)="toggleCart()" />
+
+  <app-cart-modal [isOpen]="cartOpen" (closed)="cartOpen = false" />
 
   <app-breadcrumb [items]="breadcrumbItems" />
 
@@ -14,7 +16,7 @@
       <app-product-card
         *ngFor="let product of products"
         [product]="product"
-        (addToCart)="addToCart()"
+        (addToCart)="addToCart($event)"
       />
     </div>
   </section>

@@ -2,11 +2,13 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
+import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
 import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
+import { CartService } from '../../services/cart/cart.service';
 
 @Component({
   selector: 'app-category-products',
@@ -14,6 +16,7 @@ import { ProductService } from '../../services/product/product.service';
   imports: [
     CommonModule,
     BreadcrumbComponent,
+    CartModalComponent,
     HeaderComponent,
     MenuComponent,
     ProductCardComponent,
@@ -25,14 +28,15 @@ import { ProductService } from '../../services/product/product.service';
 export class CategoryProductsComponent implements OnInit {
   categorySlug = 'celulares';
   categoryName = 'Celulares';
-  cartItems = 0;
+  cartOpen = false;
   breadcrumbItems: BreadcrumbItem[] = [];
   products: ProductCardItem[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private titleCasePipe: TitleCasePipe,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -47,8 +51,17 @@ export class CategoryProductsComponent implements OnInit {
     });
   }
 
-  addToCart() {
-    this.cartItems += 1;
+  addToCart(product: ProductCardItem) {
+    this.cartService.add(product);
+    this.cartOpen = true;
+  }
+
+  toggleCart() {
+    this.cartOpen = !this.cartOpen;
+  }
+
+  get cartItems() {
+    return this.cartService.countItems();
   }
 
   private createMockProducts(categoryName: string): ProductCardItem[] {
