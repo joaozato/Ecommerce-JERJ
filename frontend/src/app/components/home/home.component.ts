@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.listaProdutos = this.produtosBase;
-    this.listarProdutosDoBanco();
   }
 
   listarProdutosDoBanco() {
@@ -81,6 +80,7 @@ export class HomeComponent implements OnInit {
     if (!nome) {
 
       this.listaProdutos = this.produtosBase;
+      return;
 
     }
 
