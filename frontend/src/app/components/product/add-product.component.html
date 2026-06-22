@@ -1,0 +1,122 @@
+<button routerLink="/admin/dashboard" class="text-indigo-700">Voltar</button>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+
+  <form
+    (ngSubmit)="addProduct()"
+    #form="ngForm"
+    class="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-8 space-y-6"
+  >
+
+    <h2 class="text-2xl font-semibold text-gray-800">
+      Cadastro de Produto
+    </h2>
+
+    <!-- GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <!-- Nome -->
+      <div class="flex flex-col">
+        <label class="text-sm text-gray-600 mb-1">Nome</label>
+        <input
+          type="text"
+          name="nome"
+          [(ngModel)]="product.nome"
+          required
+          placeholder="Ex: Notebook"
+          class="input"
+        />
+      </div>
+
+      <!-- Marca -->
+      <div class="flex flex-col">
+        <label class="text-sm text-gray-600 mb-1">Marca</label>
+        <input
+          type="text"
+          name="marca"
+          [(ngModel)]="product.marca"
+          required
+          placeholder="Ex: Dell"
+          class="input"
+        />
+      </div>
+
+      <!-- Categoria -->
+      <div class="flex flex-col">
+        <label class="text-sm text-gray-600 mb-1">Categoria</label>
+        <input
+          type="text"
+          name="categoria"
+          [(ngModel)]="product.categoria"
+          required
+          placeholder="Ex: Notebook"
+          class="input"
+        />
+      </div>
+
+      <!-- Preço -->
+      <div class="flex flex-col">
+        <label class="text-sm text-gray-600 mb-1">Preço</label>
+        <input
+          type="number"
+          name="preco"
+          [(ngModel)]="product.preco"
+          required
+          placeholder="0.00"
+          class="input"
+        />
+      </div>
+
+      <!-- Custo -->
+      <div class="flex flex-col">
+        <label class="text-sm text-gray-600 mb-1">Custo</label>
+        <input
+          type="number"
+          name="custo"
+          [(ngModel)]="product.custo"
+          required
+          placeholder="0.00"
+          class="input"
+        />
+      </div>
+
+      <!-- Quantidade -->
+      <div class="flex flex-col">
+        <label class="text-sm text-gray-600 mb-1">Quantidade</label>
+        <input
+          type="number"
+          name="quantidade"
+          [(ngModel)]="product.quantidade"
+          required
+          placeholder="0"
+          class="input"
+        />
+      </div>
+
+      <!-- Imagem -->
+      <div class="flex flex-col md:col-span-2">
+        <label class="text-sm text-gray-600 mb-1">Imagem (URL)</label>
+        <input
+          type="text"
+          name="pathImagem"
+          [(ngModel)]="product.pathImagem"
+          required
+          placeholder="https://..."
+          class="input"
+        />
+      </div>
+
+    </div>
+
+    <!-- Botão de submit -->
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="w-full bg-[#EF8354] hover:bg-orange-700 disabled:bg-gray-300 text-white font-medium py-3 rounded-xl transition"
+    >
+      Salvar Produto
+    </button>
+
+  </form>
+
+</div>

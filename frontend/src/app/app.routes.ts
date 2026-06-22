@@ -5,7 +5,8 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { ProductDetailsComponent } from './components/product/product-details.component';
-import {AuthGuard} from './services/auth/auth.guard';
+import { addProductComponent } from './components/product/add-product.component';
+import { AuthGuard } from './services/auth/auth.guard';
 
 
 export const routes: Routes = [
@@ -23,9 +24,14 @@ export const routes: Routes = [
     //canActivate: [AuthGuard()] // AuthGuard sem parâmetro -> Rota pode ser acessada por usuário LOGADO com privilégio USER
   },
   {
-    path: 'adminDashboard',
+    path: 'admin/dashboard',
     component: AdminDashboardComponent,
-    //canActivate: [AuthGuard('ADMIN')] // AuthGuard sem parâmetro -> Rota pode ser acessada por usuário LOGADO com privilégio USER
+    //canActivate: [AuthGuard('ADMIN')]
+  },
+  {
+    path: 'admin/addProduct',
+    component: addProductComponent,
+    //canActivate: [AuthGuard('ADMIN')]
   },
   {
     path: 'unauthorized',

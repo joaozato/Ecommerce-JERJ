@@ -8,19 +8,52 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { LucideStar } from '@lucide/angular';
+import {
+  LucideChevronLeft,
+  LucideChevronRight,
+  LucideFlame,
+  LucideShoppingCart,
+  LucideStar,
+} from '@lucide/angular';
 import { InstallmentOption } from '../../models/installment.model'
+import { HeaderComponent } from '../header/header.component';
+import { MenuComponent } from '../menu/menu.component';
+import { Location } from '@angular/common';
+import { BackButtonComponent } from '../../components/back-button/back-button.component'
 //import { AuthService } from '../../services/auth/auth.service';
+
+
+
+interface HomeProduct extends Product {
+  pathImagem: string;
+  avaliacoes: number;
+  valorParcela: number;
+  parcelas: number;
+}
+
+interface CartItem {
+  produto: HomeProduct;
+  quantidade: number;
+}
 
 
 @Component({
   standalone: true,
   selector: 'app-product-details',
+  styleUrls: ['./product-details.component.css'],
   templateUrl: './product-details.component.html',
   imports: [
     CommonModule,             // <-- necessário para utilizar *ngIf e *ngFor
     DecimalPipe,
     LucideStar,
+    HeaderComponent,
+    LucideChevronLeft,
+    LucideChevronRight,
+    LucideFlame,
+    LucideShoppingCart,
+    LucideStar,
+    MenuComponent,
+    BackButtonComponent,
   ],
 })
 
@@ -28,13 +61,18 @@ import { InstallmentOption } from '../../models/installment.model'
 
 export class ProductDetailsComponent implements OnInit {
 
+  // Para o carrinho
+  //itensCarrinho: CartItem[] = [];
+  //carrinhoAberto = false;
+  //totalItensCarrinho = 0;
 
   product?: Product;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private cdr: ChangeDetectorRef // Força o Angular a re-renderizar o template para evitar erros de req com a API
+    private cdr: ChangeDetectorRef, // Força o Angular a re-renderizar o template para evitar erros de req com a API
+    private location: Location,
   ) {}
 
 
@@ -55,6 +93,7 @@ export class ProductDetailsComponent implements OnInit {
         this.cdr.detectChanges(); // Re-render - Coloquei para evitar qualquer erro de renderizar sem os dados da API
       });
 
+
   }
 
   installmentOptions: InstallmentOption[] = [];
@@ -72,4 +111,5 @@ export class ProductDetailsComponent implements OnInit {
     }
 
   }
+
 }

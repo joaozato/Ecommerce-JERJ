@@ -1,7 +1,7 @@
-export interface Product {
-  id: number; // Não precisa especificar quando o adm for adicionar um produto
+export interface CreateProduct {
   nome: string;
   marca: string;
+  categoria: string;
   preco: number;
   custo: number;
   quantidade: number;
