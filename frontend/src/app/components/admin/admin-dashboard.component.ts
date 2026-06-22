@@ -5,6 +5,9 @@ import { ChangeDetectorRef } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
+import { HeaderComponent } from '../header/header.component';
+import { MenuComponent } from '../menu/menu.component';
+import { BreadcrumbItem, BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 
 @Component({
@@ -12,16 +15,26 @@ import { ProductService } from '../../services/product/product.service';
   templateUrl: './admin-dashboard.component.html',
   imports: [
     DecimalPipe,
-    RouterLink
+    RouterLink,
+    HeaderComponent,
+    MenuComponent,
+    BreadcrumbComponent,
   ],
 })
 
-export class AdminDashboardComponent implements OnInit{
+export class AdminDashboardComponent implements OnInit
+{
+
+  cartItems = 0;
+
+  breadcrumbItems: BreadcrumbItem[] = [
+    { label: 'Home', route: '/home' },
+    { label: 'Dashboard' },
+  ];
 
   revenue = 0;
   profit = 0;
 
-  // ADICIONADO
   products: Product[] = [];
 
 

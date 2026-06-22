@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ProductService } from '../../services/product/product.service';
 import { CreateProduct } from '../../models/create-product.model';
 import { ActivatedRoute } from '@angular/router';
@@ -7,9 +7,9 @@ import { SubmitButtonComponent } from '../../shared/SubmitButton/submit-button.c
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
+import { BreadcrumbItem, BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 //import { AuthService } from '../../services/auth/auth.service';
 
 
@@ -19,16 +19,23 @@ import { MenuComponent } from '../menu/menu.component';
   templateUrl: './add-product.component.html',
   imports: [
     CommonModule,             // <-- necessário para utilizar *ngIf e *ngFor
-    DecimalPipe,
+    HeaderComponent,
     MenuComponent,
     FormsModule,
-    RouterLink,
+    BreadcrumbComponent,
   ],
 })
 
 
 
 export class addProductComponent implements OnInit {
+
+  cartItems = 0;
+
+  breadcrumbItems: BreadcrumbItem[] = [
+    { label: 'Dashboard', route: '/admin/dashboard' },
+    { label: 'Cadastro de Produto' },
+  ];
 
   product: CreateProduct = {
     nome: '',

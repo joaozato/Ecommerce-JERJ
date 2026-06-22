@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product/product.service';
 import { Product } from '../../models/product.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SubmitButtonComponent } from '../../shared/SubmitButton/submit-button.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { InstallmentOption } from '../../models/installment.model'
 import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
 import { Location } from '@angular/common';
-import { BackButtonComponent } from '../../components/back-button/back-button.component'
+import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 //import { AuthService } from '../../services/auth/auth.service';
 
 
@@ -47,13 +47,9 @@ interface CartItem {
     DecimalPipe,
     LucideStar,
     HeaderComponent,
-    LucideChevronLeft,
-    LucideChevronRight,
-    LucideFlame,
-    LucideShoppingCart,
-    LucideStar,
     MenuComponent,
-    BackButtonComponent,
+    BreadcrumbComponent,
+    RouterLink,
   ],
 })
 
@@ -65,6 +61,13 @@ export class ProductDetailsComponent implements OnInit {
   //itensCarrinho: CartItem[] = [];
   //carrinhoAberto = false;
   //totalItensCarrinho = 0;
+
+  breadcrumbItems: BreadcrumbItem[] = [
+    { label: 'HOME', route: '/home' },
+    { label: 'Visualizar Produto' },
+  ];
+
+  cartItems = 0;
 
   product?: Product;
 
@@ -94,6 +97,12 @@ export class ProductDetailsComponent implements OnInit {
       });
 
 
+  }
+
+  addToCart(qt:any) {
+    if (this.cartItems < qt) { // Não deixa ao carrinho uma quantidade maior que a do estoque
+      this.cartItems += 1;
+    }
   }
 
   installmentOptions: InstallmentOption[] = [];
