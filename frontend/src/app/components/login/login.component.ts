@@ -17,9 +17,7 @@ import {FormsModule} from '@angular/forms';
 export class LoginComponent {
 
   email: string = '';
-  /* password: string = ''; */
-  nome: string = '';
-  cpf: string = '';
+  senha: string = '';
   errorMessage: string = '';
   loading: boolean = false;
 
@@ -29,7 +27,7 @@ export class LoginComponent {
     this.errorMessage = '';
     this.loading = true;
 
-    this.authService.login({ email: this.email, nome:this.nome, /* password: this.password , */ cpf: this.cpf })
+    this.authService.login({ email: this.email, senha: this.senha })
       .subscribe({
         next: () => {
           this.loading = false;

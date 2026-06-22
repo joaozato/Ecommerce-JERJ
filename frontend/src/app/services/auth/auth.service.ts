@@ -35,7 +35,14 @@ export class AuthService {
 
   // CADASTRO
   register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data);
+    const payload = {
+      nome: data.name,
+      email: data.email,
+      senha: data.password,
+      cpf: data.cpf,
+      role: 'USER' // Define a role padrão para novos cadastros
+    };
+    return this.http.post<AuthResponse>(`${this.apiUrl}/usuarios/Cadastro`, payload);
   }
 
   // LOGOUT

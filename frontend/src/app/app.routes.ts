@@ -14,6 +14,11 @@ import { AuthGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
     path: 'register',
     component: RegisterComponent,
   },

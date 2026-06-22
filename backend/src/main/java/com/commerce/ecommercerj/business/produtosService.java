@@ -32,28 +32,15 @@ public class produtosService {
     }
 
     public List<produtos> buscarProdutopornome(String nome) {
-        List<produtos> busca = (List<produtos>) repository.findByNomeContainingIgnoreCase(nome);
-        if (busca.isEmpty()) {
-            throw new RuntimeException("Nenhum produto encontrado com esse nome!");
-        }
-        return busca;
+        return (List<produtos>) repository.findByNomeContainingIgnoreCase(nome);
     }
 
     public List<produtos> buscarProdutosPorCategoria(String categoria) {
-        List<produtos> busca = repository.findByCategoriaContainingIgnoreCase(categoria);
-        if (busca.isEmpty()) {
-            throw new RuntimeException("Nenhum produto listado nessa categoria!!");
-        }
-        return busca;
+        return repository.findByCategoriaContainingIgnoreCase(categoria);
     }
 
     public List<produtos> listarTodos() {
-        List<produtos> lista = repository.findAll();
-
-        if (lista.isEmpty()) {
-            throw new RuntimeException("Nenhum produto no estoque!");
-        }
-        return lista;
+        return repository.findAll();
     }
 
     public void deletaProduto(Integer id) {
