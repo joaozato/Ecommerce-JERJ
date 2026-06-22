@@ -48,12 +48,7 @@ public class produtosService {
     }
 
     public List<produtos> listarTodos() {
-        List<produtos> lista = repository.findAll();
-
-        if (lista.isEmpty()) {
-            throw new RuntimeException("Nenhum produto no estoque!");
-        }
-        return lista;
+        return repository.findAll();
     }
 
     public void deletaProduto(Integer id) {

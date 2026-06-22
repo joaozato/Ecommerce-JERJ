@@ -38,17 +38,21 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = recoverToken(request);
 
         if (token != null && tokenService.isTokenValid(token)) {
-            // Pega o email que guardamos dentro do token
-            String email = tokenService.getEmailFromToken(token);
-            
-            // Busca o usuário no banco de dados
-            UserDetails user = userDetailsService.loadUserByUsername(email);
-            
-            // Autentica o usuário no contexto do Spring Security
-            UsernamePasswordAuthenticationToken authentication = 
-                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                // Pega o email que guardamos dentro do token
+                String email = tokenService.getEmailFromToken(token);
+                
+                // Busca o usuário no banco de dados
+                UserDetails user = userDetailsService.loadUserByUsername(email);
+                
+                // Autentica o usuário no contexto do Spring Security
+                UsernamePasswordAuthenticationToken authentication = 
+                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e) {
+                // Ignora falhas de autenticação de tokens inválidos/deletados em rotas públicas
+            }
         }
 
         // Continua o fluxo da requisição

@@ -28,43 +28,17 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium mb-1" for="nome">Nome:</label>
-          <input
-            type="text"
-            id="nome"
-            [(ngModel)]="nome"
-            name="nome"
-            placeholder="Seu Nome"
-            required
-            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-1" for="cpf">CPF:</label>
-          <input
-            type="text"
-            id="cpf"
-            [(ngModel)]="cpf"
-            name="cpf"
-            placeholder="Seu CPF"
-            required
-            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <!-- <div>
-          <label class="block text-sm font-medium mb-1" for="password">Senha</label>
+          <label class="block text-sm font-medium mb-1" for="senha">Senha:</label>
           <input
             type="password"
-            id="password"
-            [(ngModel)]="password"
-            name="password"
+            id="senha"
+            [(ngModel)]="senha"
+            name="senha"
             placeholder="Sua senha"
             required
             class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-        </div> -->
+        </div>
 
         <div class="mt-6">
           <submit-button type="submit" [disabled]="loading" label="Login" color="orange"></submit-button>
