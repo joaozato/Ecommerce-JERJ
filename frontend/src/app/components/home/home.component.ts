@@ -28,6 +28,7 @@ type HomeProduct = ProductCardItem;
     LucideFlame,
     MenuComponent,
     ProductCardComponent,
+
   ],
 })
 export class HomeComponent implements OnInit {
@@ -48,13 +49,12 @@ export class HomeComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.listaProdutos = this.produtosBase;
     this.sincronizarCarrinho();
-    this.listarProdutosDoBanco();
   }
 
   listarProdutosDoBanco() {
@@ -97,8 +97,9 @@ export class HomeComponent implements OnInit {
     const nome = termo.trim();
 
     if (!nome) {
-      this.listarProdutosDoBanco();
-      return;
+
+      this.listaProdutos = this.produtosBase;
+
     }
 
     this.productService.searchByName(nome).subscribe({
