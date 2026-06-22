@@ -10,6 +10,139 @@
   background: #ffffff;
 }
 
+.cart-panel {
+  position: fixed;
+  top: 61px;
+  right: 0;
+  z-index: 40;
+  width: min(360px, 100vw);
+  border: 0;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+}
+
+.cart-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid #d7dbe2;
+  border-radius: 8px 8px 0 0;
+  background: #2d3144;
+  color: #ffffff;
+}
+
+.cart-panel-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.cart-panel-header span,
+.cart-empty {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cart-empty {
+  margin: 0;
+  padding: 14px 12px;
+  color: #6c7280;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.cart-item h3,
+.cart-item p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.cart-item h3 {
+  color: #303445;
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.cart-item p {
+  margin-top: 3px;
+  color: #6c7280;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cart-item strong {
+  display: inline-block;
+  margin-top: 6px;
+  color: #ff8f59;
+  font-size: 15px;
+}
+
+.cart-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cart-item-actions span {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.cart-item-actions button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: #2d3144;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.cart-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  color: #303445;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.cart-total strong {
+  color: #ff8f59;
+}
+
+.cart-buy-button {
+  width: calc(100% - 24px);
+  min-height: 42px;
+  margin: 0 12px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: #2d3144;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.cart-buy-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .category-panel {
   box-sizing: border-box;
   width: 100%;

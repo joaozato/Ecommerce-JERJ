@@ -1,12 +1,13 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
 import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
+import { CartItem, CartService } from '../../services/cart/cart.service';
 
 @Component({
   selector: 'app-category-products',
@@ -26,16 +27,22 @@ export class CategoryProductsComponent implements OnInit {
   categorySlug = 'celulares';
   categoryName = 'Celulares';
   cartItems = 0;
+  cartOpen = false;
+  cartProducts: CartItem<ProductCardItem>[] = [];
   breadcrumbItems: BreadcrumbItem[] = [];
   products: ProductCardItem[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private titleCasePipe: TitleCasePipe,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.syncCart();
+
     this.route.paramMap.subscribe((params) => {
       this.categorySlug = params.get('categoria') ?? 'celulares';
       this.categoryName = this.formatCategoryName(this.categorySlug);
@@ -47,8 +54,31 @@ export class CategoryProductsComponent implements OnInit {
     });
   }
 
-  addToCart() {
-    this.cartItems += 1;
+  addToCart(product: ProductCardItem) {
+    this.cartService.add(product);
+    this.syncCart();
+    this.cartOpen = true;
+  }
+
+  toggleCart() {
+    this.cartOpen = !this.cartOpen;
+  }
+
+  removeFromCart(productId: number) {
+    this.cartService.decrease(productId);
+    this.syncCart();
+  }
+
+  buyCart() {
+    if (!this.cartProducts.length) {
+      return;
+    }
+
+    this.router.navigate(['/venda']);
+  }
+
+  get cartTotal() {
+    return this.cartService.totalPrice();
   }
 
   private createMockProducts(categoryName: string): ProductCardItem[] {
@@ -91,5 +121,10 @@ export class CategoryProductsComponent implements OnInit {
   private formatCategoryName(slug: string) {
     const normalized = slug.replace(/-/g, ' ');
     return this.titleCasePipe.transform(normalized) ?? 'Categoria';
+  }
+
+  private syncCart() {
+    this.cartProducts = this.cartService.getItems() as CartItem<ProductCardItem>[];
+    this.cartItems = this.cartService.countItems();
   }
 }
