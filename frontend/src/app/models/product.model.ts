@@ -1,9 +1,15 @@
 export interface Product {
-  id: number; // Não precisa especificar quando o adm for adicionar um produto
+  id: number;
   nome: string;
   marca: string;
   preco: number;
-  custo: number;
+  custo?: number;
   quantidade: number;
-  pathImagem: string;
+  categoria?: string;
+  pathImagem?: string;
+}
+
+export interface CheckoutItem {
+  id: number;
+  quantidade: number;
 }

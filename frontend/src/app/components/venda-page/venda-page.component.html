@@ -1,0 +1,128 @@
+<main class="sale-page">
+  <app-header [cartItems]="0" />
+
+  <app-breadcrumb [items]="breadcrumbItems" />
+
+  <section class="checkout-progress" aria-label="Etapas da compra">
+    <div class="step" [class.step--active]="isDeliveryStep">
+      <svg lucideMapPin size="38" strokeWidth="2.2"></svg>
+    </div>
+
+    <span class="step-dots" [class.step-dots--active]="isPaymentStep || isSuccessStep"></span>
+
+    <div class="step" [class.step--active]="isPaymentStep">
+      <svg lucideCreditCard size="38" strokeWidth="2.2"></svg>
+    </div>
+
+    <span class="step-dots" [class.step-dots--active]="isSuccessStep"></span>
+
+    <div class="step" [class.step--active]="isSuccessStep">
+      <svg lucideCheck size="38" strokeWidth="2.2"></svg>
+    </div>
+  </section>
+
+  <section class="checkout-card" *ngIf="!isSuccessStep">
+    <form class="checkout-form" *ngIf="isDeliveryStep">
+      <h1>Endereço para a entrega</h1>
+
+      <label class="field field--wide">
+        <span><svg lucideInfo size="12"></svg> Quem vai receber a compra?</span>
+        <input type="text" />
+      </label>
+
+      <div class="form-row form-row--three">
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> CEP</span>
+          <input type="text" />
+        </label>
+
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> Estado</span>
+          <input type="text" />
+        </label>
+
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> Município</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <div class="form-row form-row--address">
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> Logradouro</span>
+          <input type="text" />
+        </label>
+
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> Número</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <label class="field field--wide">
+        <span><svg lucideInfo size="12"></svg> Bairro</span>
+        <input type="text" />
+      </label>
+
+      <button class="confirm-button" type="button" (click)="goToPayment()">CONFIRMAR</button>
+    </form>
+
+    <form class="checkout-form" *ngIf="isPaymentStep">
+      <h1>Dados para a compra</h1>
+
+      <label class="field field--wide">
+        <span><svg lucideInfo size="12"></svg> Qual o método de pagamento?</span>
+        <input type="text" />
+      </label>
+
+      <div class="form-row form-row--card">
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> Número do cartão</span>
+          <input type="text" />
+        </label>
+
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> CVV</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <div class="form-row form-row--card">
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> CPF</span>
+          <input type="text" />
+        </label>
+
+        <label class="field">
+          <span><svg lucideInfo size="12"></svg> Vencimento</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <label class="field field--wide">
+        <span><svg lucideInfo size="12"></svg> Nome Completo</span>
+        <input type="text" />
+      </label>
+
+      <button class="confirm-button" type="button" (click)="finishPurchase()">CONFIRMAR</button>
+    </form>
+
+    <aside class="checkout-cart" aria-label="Resumo do carrinho">
+      <h2>
+        <svg lucideShoppingCart size="42" strokeWidth="2.2"></svg>
+        Carrinho
+      </h2>
+
+      <div class="cart-placeholder"></div>
+      <div class="cart-placeholder"></div>
+    </aside>
+  </section>
+
+  <section class="success-card" *ngIf="isSuccessStep">
+    <div class="success-content">
+      <h1>COMPRA REALIZADA!</h1>
+      <p>Acompanhe o rastreio<br />do seu pedido em<br />“Meus Pedidos”</p>
+      <button type="button" (click)="goHome()">VOLTAR PARA O HOME</button>
+    </div>
+  </section>
+</main>

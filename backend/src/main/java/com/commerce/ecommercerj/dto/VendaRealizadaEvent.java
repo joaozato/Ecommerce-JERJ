@@ -7,3 +7,4 @@ public class VendaRealizadaEvent extends ApplicationEvent {
         super(source);
     }
 }
+
