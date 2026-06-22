@@ -12,6 +12,11 @@
   border: 1px solid #cdd1d8;
   border-radius: 6px;
   background: #ffffff;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 12px rgba(45, 49, 68, 0.16);
 }
 
 .product-card--compact {

@@ -75,6 +75,10 @@ export const routes: Routes = [
     path: 'product/:id',
     component: ProductDetailsComponent,
     //canActivate: [AuthGuard()] // AuthGuard sem parâmetro -> Rota pode ser acessada por usuário LOGADO com privilégio USER
-  }
+  },
 
+  {
+    path: 'produto/:id',
+    component: ProductDetailsComponent,
+  }
 ];
