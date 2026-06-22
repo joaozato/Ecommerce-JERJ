@@ -10,9 +10,9 @@ export const AuthGuard: (requiredRole?: 'ADMIN') => CanActivateFn = (requiredRol
     const authService = inject(AuthService);
     const router = inject(Router);
 
-    // Verifica se está logado
-    if (!authService.isLoggedIn()) {
-      router.navigate(['/login']);
+    // Verifica se está logado e se o token é válido/não expirado
+    if (!authService.isLoggedIn() || authService.isTokenExpired()) {
+      authService.logout(); // Limpa o token inválido/expirado do localStorage e redireciona
       return false;
     }
 
