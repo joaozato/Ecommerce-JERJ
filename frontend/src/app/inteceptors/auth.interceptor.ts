@@ -1,6 +1,9 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
@@ -8,16 +11,22 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = authService.getToken(); // Utiliza a função que está no services/auth/auth.service.ts para coletar o token JWT
 
-  if (token) {
+  let clonedRequest = req;
 
-    const clonedRequest = req.clone({
+  if (token) {
+    clonedRequest = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}` // Adiciona o token jwt nas futuras requisições
       }
     });
-
-    return next(clonedRequest);
   }
 
-  return next(req);
+  return next(clonedRequest).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401 || error.status === 403) {
+        authService.logout();
+      }
+      return throwError(() => error);
+    })
+  );
 };
