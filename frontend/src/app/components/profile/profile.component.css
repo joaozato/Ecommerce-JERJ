@@ -1,0 +1,200 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #171a23;
+}
+
+.profile-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.profile-summary,
+.orders-panel {
+  box-sizing: border-box;
+  width: calc(100vw - 64px);
+  margin: 24px auto 0;
+  border-radius: 7px;
+  background: #ffffff;
+}
+
+.profile-summary {
+  display: grid;
+  grid-template-columns: 1fr 1.18fr;
+  min-height: 318px;
+  border: 1px solid #cdd1d8;
+}
+
+.profile-box {
+  padding: 17px 25px;
+}
+
+.profile-box--address {
+  border-left: 1px solid #6d7482;
+}
+
+.profile-box h1,
+.profile-box h2,
+.orders-panel h2 {
+  width: min(263px, 100%);
+  margin: 0 0 28px;
+  padding-bottom: 9px;
+  border-bottom: 4px solid #ff7f45;
+  box-shadow: 0 2px 0 #171a23;
+  color: #050505;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.profile-box p {
+  margin: 0 0 11px;
+  color: #303445;
+  font-size: 17px;
+}
+
+.orders-panel {
+  min-height: 390px;
+  padding: 17px 25px 0;
+  border: 1px solid #cdd1d8;
+}
+
+.orders-panel h2 {
+  margin-bottom: 34px;
+}
+
+.orders-list {
+  max-height: min(42vh, 420px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.order-card {
+  display: grid;
+  grid-template-columns: minmax(170px, 212px) minmax(230px, 1fr) minmax(260px, 0.9fr);
+  min-height: 190px;
+  margin-bottom: 44px;
+  overflow: hidden;
+  border: 1px solid #c6ccd5;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.order-image {
+  background: #d9d9d9;
+}
+
+.order-info {
+  padding: 12px 20px;
+}
+
+.order-info h3 {
+  margin: 0 0 10px;
+  color: #050505;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.order-info strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #050505;
+  font-size: 16px;
+}
+
+.order-info p {
+  margin: 0;
+  color: #171a23;
+  font-size: 16px;
+  font-style: italic;
+}
+
+.tracking {
+  padding: 14px 18px;
+  border-left: 1px solid #c6ccd5;
+}
+
+.tracking h4 {
+  margin: 0 0 8px;
+  color: #f47f4d;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.tracking ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tracking-step {
+  display: flex;
+  align-items: center;
+  min-height: 21px;
+  color: #050505;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tracking-step span {
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 999px;
+  background: #2d3144;
+}
+
+.tracking-step--active span {
+  width: 14px;
+  height: 14px;
+  background: #f47f4d;
+}
+
+.tracking-step--middle {
+  min-height: 13px;
+}
+
+.tracking-step--middle span {
+  width: 7px;
+  height: 7px;
+}
+
+@media (max-width: 860px) {
+  .profile-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-box--address {
+    border-top: 1px solid #6d7482;
+    border-left: 0;
+  }
+
+  .order-card {
+    grid-template-columns: minmax(140px, 180px) 1fr;
+  }
+
+  .tracking {
+    grid-column: 1 / -1;
+    border-top: 1px solid #c6ccd5;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .profile-summary,
+  .orders-panel {
+    width: calc(100vw - 24px);
+  }
+
+  .profile-box {
+    padding: 16px;
+  }
+
+  .order-card {
+    grid-template-columns: 1fr;
+  }
+
+  .order-image {
+    min-height: 150px;
+  }
+}

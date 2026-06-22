@@ -23,14 +23,14 @@
   [style.right.px]="menuPosition.right"
 >
   <header class="menu-header">
-    <button class="profile-button" type="button">
+    <a class="profile-button" routerLink="/meu-perfil" (click)="closeMenu()">
       <svg lucideUserRound size="23" strokeWidth="2.5"></svg>
       <span>Acessar perfil</span>
-    </button>
+    </a>
   </header>
 
   <nav class="menu-content">
-    <a href="#">Minhas compras</a>
+    <a routerLink="/minhas-compras" (click)="closeMenu()">Minhas compras</a>
     <a href="#">Mais vendidos no mês</a>
 
     <section class="categories" aria-labelledby="categories-title">
