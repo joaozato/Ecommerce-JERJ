@@ -130,6 +130,24 @@
   color: #ff8f59;
 }
 
+.cart-buy-button {
+  width: calc(100% - 24px);
+  min-height: 42px;
+  margin: 0 12px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: #2d3144;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.cart-buy-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .hero {
   position: relative;
   display: flex;

@@ -10,6 +10,7 @@ import {
 } from '@lucide/angular';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
+import { CartItem, CartService } from '../../services/cart/cart.service';
 
 type CheckoutStep = 'delivery' | 'payment' | 'success';
 
@@ -31,13 +32,27 @@ type CheckoutStep = 'delivery' | 'payment' | 'success';
 })
 export class VendaPageComponent {
   currentStep: CheckoutStep = 'delivery';
+  cartItems: CartItem[] = [];
   breadcrumbItems: BreadcrumbItem[] = [
     { label: 'HOME', route: '/home' },
     { label: 'Visualizar Produto', route: '/home' },
     { label: 'Compra' },
   ];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private cartService: CartService
+  ) {
+    this.cartItems = this.cartService.getItems();
+  }
+
+  get totalItensCarrinho() {
+    return this.cartService.countItems();
+  }
+
+  get totalCarrinho() {
+    return this.cartService.totalPrice();
+  }
 
   get isDeliveryStep() {
     return this.currentStep === 'delivery';

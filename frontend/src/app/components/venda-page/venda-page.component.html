@@ -1,5 +1,5 @@
 <main class="sale-page">
-  <app-header [cartItems]="0" />
+  <app-header [cartItems]="totalItensCarrinho" />
 
   <app-breadcrumb [items]="breadcrumbItems" />
 
@@ -113,8 +113,26 @@
         Carrinho
       </h2>
 
-      <div class="cart-placeholder"></div>
-      <div class="cart-placeholder"></div>
+      <p class="checkout-cart-empty" *ngIf="!cartItems.length">Seu carrinho está vazio.</p>
+
+      <div class="checkout-cart-list" *ngIf="cartItems.length">
+        <article class="checkout-cart-item" *ngFor="let item of cartItems">
+          <div class="checkout-cart-image" aria-hidden="true">
+            <img *ngIf="item.produto.pathImagem" [src]="item.produto.pathImagem" [alt]="item.produto.nome" />
+          </div>
+
+          <div>
+            <h3>{{ item.produto.nome }}</h3>
+            <p>{{ item.produto.marca }} - Qtd. {{ item.quantidade }}</p>
+            <strong>R$ {{ item.produto.preco * item.quantidade | number:'1.2-2' }}</strong>
+          </div>
+        </article>
+
+        <footer class="checkout-cart-total">
+          <span>Total</span>
+          <strong>R$ {{ totalCarrinho | number:'1.2-2' }}</strong>
+        </footer>
+      </div>
     </aside>
   </section>
 

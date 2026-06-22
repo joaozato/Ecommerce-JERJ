@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   LucideChevronLeft,
   LucideChevronRight,
@@ -10,13 +11,9 @@ import { MenuComponent } from '../menu/menu.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
 import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
+import { CartItem, CartService } from '../../services/cart/cart.service';
 
 type HomeProduct = ProductCardItem;
-
-interface CartItem {
-  produto: HomeProduct;
-  quantidade: number;
-}
 
 @Component({
   selector: 'app-home',
@@ -48,10 +45,15 @@ export class HomeComponent implements OnInit {
     { id: 4, nome: 'Produto destaque 4', marca: 'Marca', preco: 150.5, custo:0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem:"" },
   ];
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.listaProdutos = this.produtosBase;
+    this.sincronizarCarrinho();
     this.listarProdutosDoBanco();
   }
 
@@ -63,18 +65,8 @@ export class HomeComponent implements OnInit {
   }
 
   adicionarAoCarrinho(produto: HomeProduct) {
-    const itemCarrinho = this.itensCarrinho.find((item) => item.produto.id === produto.id);
-
-    if (itemCarrinho) {
-      itemCarrinho.quantidade += 1;
-    } else {
-      this.itensCarrinho = [
-        ...this.itensCarrinho,
-        { produto, quantidade: 1 },
-      ];
-    }
-
-    this.atualizarTotalItensCarrinho();
+    this.cartService.add(produto);
+    this.sincronizarCarrinho();
     this.carrinhoAberto = true;
     console.log('Adicionou ao carrinho:', produto.nome);
   }
@@ -85,21 +77,20 @@ export class HomeComponent implements OnInit {
   }
 
   removerDoCarrinho(produtoId: number) {
-    this.itensCarrinho = this.itensCarrinho
-      .map((item) => item.produto.id === produtoId
-        ? { ...item, quantidade: item.quantidade - 1 }
-        : item
-      )
-      .filter((item) => item.quantidade > 0);
-
-    this.atualizarTotalItensCarrinho();
+    this.cartService.decrease(produtoId);
+    this.sincronizarCarrinho();
   }
 
   get totalCarrinho() {
-    return this.itensCarrinho.reduce(
-      (total, item) => total + item.produto.preco * item.quantidade,
-      0
-    );
+    return this.cartService.totalPrice();
+  }
+
+  comprarCarrinho() {
+    if (!this.itensCarrinho.length) {
+      return;
+    }
+
+    this.router.navigate(['/venda']);
   }
 
   pesquisarProdutos(termo: string) {
@@ -150,10 +141,8 @@ export class HomeComponent implements OnInit {
     }));
   }
 
-  private atualizarTotalItensCarrinho() {
-    this.totalItensCarrinho = this.itensCarrinho.reduce(
-      (total, item) => total + item.quantidade,
-      0
-    );
+  private sincronizarCarrinho() {
+    this.itensCarrinho = this.cartService.getItems() as CartItem<HomeProduct>[];
+    this.totalItensCarrinho = this.cartService.countItems();
   }
 }

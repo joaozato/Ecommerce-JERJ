@@ -32,6 +32,15 @@
         <strong>R$ {{ totalCarrinho | number:'1.2-2' }}</strong>
       </footer>
     </div>
+
+    <button
+      class="cart-buy-button"
+      type="button"
+      [disabled]="!itensCarrinho.length"
+      (click)="comprarCarrinho()"
+    >
+      Comprar
+    </button>
   </aside>
 
   <section class="hero" aria-label="Carrossel de banners">
