@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { LoginComponent} from './components/login/login.component';
-import { RegisterComponent} from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+import { VendaPageComponent } from './components/venda-page/venda-page.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
-import {AuthGuard} from './services/auth/auth.guard';
-
+import { AuthGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -19,16 +19,23 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    //canActivate: [AuthGuard()] // AuthGuard sem parâmetro -> Rota pode ser acessada por usuário LOGADO com privilégio USER
+    // canActivate: [AuthGuard()]
+  },
+  {
+    path: 'venda-page',
+    component: VendaPageComponent,
+  },
+  {
+    path: 'venda',
+    component: VendaPageComponent,
   },
   {
     path: 'adminDashboard',
     component: AdminDashboardComponent,
-    canActivate: [AuthGuard('ADMIN')] // AuthGuard sem parâmetro -> Rota pode ser acessada por usuário LOGADO com privilégio USER
+    canActivate: [AuthGuard('ADMIN')],
   },
   {
     path: 'unauthorized',
     component: UnauthorizedComponent,
   },
-
 ];

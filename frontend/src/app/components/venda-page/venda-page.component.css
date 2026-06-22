@@ -1,0 +1,286 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #2d3144;
+}
+
+.sale-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.breadcrumb {
+  padding: 12px 11px 0;
+  color: #2d4a6d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.checkout-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 35px 16px 27px;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 999px;
+  background: #d8d8d8;
+  color: #1b1c20;
+}
+
+.step--active {
+  background: #1b1c20;
+  color: #ffffff;
+}
+
+.step-dots {
+  width: 75px;
+  border-top: 9px dotted #f47f4d;
+}
+
+.step-dots--active {
+  border-color: #9ba3b0;
+}
+
+.checkout-card,
+.success-card {
+  width: min(86vw, 1160px);
+  margin: 0 auto 44px;
+  border-radius: 8px;
+  background: #fde6dc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+}
+
+.checkout-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3px minmax(260px, 410px);
+  gap: 24px;
+  min-height: 438px;
+  padding: 21px 27px 18px 39px;
+}
+
+.checkout-card::before {
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  width: 3px;
+  min-height: 100%;
+  border-radius: 999px;
+  background: #2d3144;
+}
+
+.checkout-form {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+
+.checkout-form h1,
+.checkout-cart h2 {
+  margin: 0 0 14px;
+  color: #050505;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.form-row {
+  display: grid;
+  gap: 20px;
+}
+
+.form-row--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.form-row--address {
+  grid-template-columns: minmax(0, 1fr) 128px;
+}
+
+.form-row--card {
+  grid-template-columns: minmax(0, 1fr) 140px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.field--wide {
+  width: min(100%, 410px);
+}
+
+.field span {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #050505;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.field input {
+  height: 36px;
+  margin-top: 4px;
+  border: 1px solid #aeb6c2;
+  border-radius: 5px;
+  background: #ffffff;
+  font-size: 14px;
+  outline: 0;
+  padding: 0 9px;
+}
+
+.confirm-button,
+.success-content button {
+  width: min(100%, 430px);
+  min-height: 50px;
+  border: 0;
+  border-radius: 7px;
+  background: #2d3144;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.confirm-button {
+  align-self: center;
+  margin-top: auto;
+}
+
+.checkout-cart {
+  grid-column: 3;
+  grid-row: 1;
+  padding: 0 0 0 3px;
+}
+
+.checkout-cart h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+}
+
+.cart-placeholder {
+  min-height: 135px;
+  margin-bottom: 25px;
+  border: 1px solid #aeb6c2;
+  border-radius: 5px;
+  background: #ffffff;
+}
+
+.success-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 438px;
+  padding: 40px 20px;
+}
+
+.success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.success-content h1 {
+  margin: 0 0 34px;
+  color: #2d3144;
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.success-content p {
+  margin: 0 0 96px;
+  color: #2d3144;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.18;
+}
+
+@media (max-width: 850px) {
+  .checkout-progress {
+    gap: 9px;
+    padding-top: 28px;
+  }
+
+  .step {
+    width: 62px;
+    height: 62px;
+  }
+
+  .step-dots {
+    width: 42px;
+  }
+
+  .checkout-card {
+    grid-template-columns: 1fr;
+    padding: 24px 18px;
+  }
+
+  .checkout-card::before {
+    display: none;
+  }
+
+  .checkout-cart {
+    grid-column: 1;
+    padding: 20px 0 0;
+    border-top: 3px solid #2d3144;
+  }
+
+  .form-row--three,
+  .form-row--address,
+  .form-row--card {
+    grid-template-columns: 1fr;
+  }
+
+  .field--wide {
+    width: 100%;
+  }
+
+  .success-content h1,
+  .success-content p {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-card,
+  .success-card {
+    width: calc(100vw - 24px);
+  }
+
+  .checkout-progress {
+    gap: 6px;
+  }
+
+  .step {
+    width: 54px;
+    height: 54px;
+  }
+
+  .step-dots {
+    width: 26px;
+    border-top-width: 7px;
+  }
+
+  .checkout-form h1,
+  .checkout-cart h2 {
+    font-size: 22px;
+  }
+
+  .confirm-button,
+  .success-content button {
+    font-size: 20px;
+  }
+}
