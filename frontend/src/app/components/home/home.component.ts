@@ -7,7 +7,6 @@ import {
 } from '@lucide/angular';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
 import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
@@ -27,7 +26,6 @@ type HomeProduct = ProductCardItem;
     LucideChevronLeft,
     LucideChevronRight,
     LucideFlame,
-    MenuComponent,
     ProductCardComponent,
   ],
 })
@@ -91,10 +89,6 @@ export class HomeComponent implements OnInit {
         this.listaProdutos = [];
       },
     });
-  }
-
-  abrirMenu() {
-    console.log('Abrir menu');
   }
 
   bannerAnterior() {

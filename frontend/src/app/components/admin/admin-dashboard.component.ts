@@ -6,7 +6,6 @@ import { DecimalPipe } from '@angular/common';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { BreadcrumbItem, BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 
@@ -17,7 +16,6 @@ import { BreadcrumbItem, BreadcrumbComponent } from '../breadcrumb/breadcrumb.co
     DecimalPipe,
     RouterLink,
     HeaderComponent,
-    MenuComponent,
     BreadcrumbComponent,
   ],
 })

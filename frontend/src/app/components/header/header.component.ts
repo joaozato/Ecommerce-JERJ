@@ -4,6 +4,7 @@ import {
   LucideShoppingCart,
   LucideSmile,
 } from '@lucide/angular';
+import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,7 @@ import {
     LucideSearch,
     LucideShoppingCart,
     LucideSmile,
+    MenuComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
