@@ -42,10 +42,10 @@ export class HomeComponent implements OnInit {
   bannerAtual = 0;
   banners: string[] = [];
   private readonly produtosBase: HomeProduct[] = [
-    { id: 1, nome: 'Produto destaque 1', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 2, nome: 'Produto destaque 2', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 3, nome: 'Produto destaque 3', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
-    { id: 4, nome: 'Produto destaque 4', marca: 'Marca', preco: 150.5, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5 },
+    { id: 1, nome: 'Produto destaque 1', marca: 'Marca', preco: 150.5, custo:0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem:"" },
+    { id: 2, nome: 'Produto destaque 2', marca: 'Marca', preco: 150.5, custo:0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem:"" },
+    { id: 3, nome: 'Produto destaque 3', marca: 'Marca', preco: 150.5, custo:0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem:"" },
+    { id: 4, nome: 'Produto destaque 4', marca: 'Marca', preco: 150.5, custo:0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem:"" },
   ];
 
   constructor(private productService: ProductService) { }
@@ -78,6 +78,7 @@ export class HomeComponent implements OnInit {
     this.carrinhoAberto = true;
     console.log('Adicionou ao carrinho:', produto.nome);
   }
+
 
   abrirCarrinho() {
     this.carrinhoAberto = !this.carrinhoAberto;
