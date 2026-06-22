@@ -20,7 +20,6 @@ import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
 import { Location } from '@angular/common';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
-import { CartItem, CartService } from '../../services/cart/cart.service';
 //import { AuthService } from '../../services/auth/auth.service';
 
 
