@@ -4,7 +4,7 @@
   <aside class="cart-panel" *ngIf="cartOpen" aria-label="Lista do carrinho">
     <header class="cart-panel-header">
       <h2>Carrinho</h2>
-      <span>{{ cartItems }} item(ns)</span>
+      <button type="button" aria-label="Fechar carrinho" (click)="cartOpen = false">X</button>
     </header>
 
     <p class="cart-empty" *ngIf="!cartProducts.length">Seu carrinho está vazio.</p>

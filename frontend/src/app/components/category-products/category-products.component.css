@@ -27,6 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   padding: 10px 12px;
   border-bottom: 1px solid #d7dbe2;
   border-radius: 8px 8px 0 0;
@@ -37,6 +38,18 @@
 .cart-panel-header h2 {
   margin: 0;
   font-size: 18px;
+}
+
+.cart-panel-header button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 900;
 }
 
 .cart-panel-header span,
