@@ -41,7 +41,7 @@ export class ProductService {
 
   searchByName(nome: string): Observable<Product[]> {
     const params = new HttpParams().set('nome', nome);
-    return this.http.get<Product[]>(`${this.apiUrl}/buscar`, { params });
+    return this.http.get<Product[]>(`${this.apiUrl}/buscarNome`, {params});
   }
 
   listByCategory(categoria: string): Observable<Product[]> {

@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.listaProdutos = this.produtosBase;
-    this.listarProdutosDoBanco();
   }
 
   listarProdutosDoBanco() {
@@ -79,8 +78,10 @@ export class HomeComponent implements OnInit {
     const nome = termo.trim();
 
     if (!nome) {
-      this.listarProdutosDoBanco();
+
+      this.listaProdutos = this.produtosBase;
       return;
+
     }
 
     this.productService.searchByName(nome).subscribe({
@@ -122,4 +123,6 @@ export class HomeComponent implements OnInit {
       parcelas: 5,
     }));
   }
+
+
 }
