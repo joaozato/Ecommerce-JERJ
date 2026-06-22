@@ -1,43 +1,7 @@
 <main class="category-page">
   <app-header [cartItems]="cartItems" (cartClick)="toggleCart()" />
 
-  <aside class="cart-panel" *ngIf="cartOpen" aria-label="Lista do carrinho">
-    <header class="cart-panel-header">
-      <h2>Carrinho</h2>
-      <button type="button" aria-label="Fechar carrinho" (click)="cartOpen = false">X</button>
-    </header>
-
-    <p class="cart-empty" *ngIf="!cartProducts.length">Seu carrinho está vazio.</p>
-
-    <div class="cart-items" *ngIf="cartProducts.length">
-      <article class="cart-item" *ngFor="let item of cartProducts">
-        <div>
-          <h3>{{ item.produto.nome }}</h3>
-          <p>{{ item.produto.marca }}</p>
-          <strong>R$ {{ item.produto.preco | number:'1.2-2' }}</strong>
-        </div>
-
-        <div class="cart-item-actions">
-          <span>Qtd. {{ item.quantidade }}</span>
-          <button type="button" (click)="removeFromCart(item.produto.id)">-</button>
-        </div>
-      </article>
-
-      <footer class="cart-total">
-        <span>Total</span>
-        <strong>R$ {{ cartTotal | number:'1.2-2' }}</strong>
-      </footer>
-    </div>
-
-    <button
-      class="cart-buy-button"
-      type="button"
-      [disabled]="!cartProducts.length"
-      (click)="buyCart()"
-    >
-      Comprar
-    </button>
-  </aside>
+  <app-cart-modal [isOpen]="cartOpen" (closed)="cartOpen = false" />
 
   <app-breadcrumb [items]="breadcrumbItems" />
 
