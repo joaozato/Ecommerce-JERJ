@@ -17,7 +17,6 @@ import {
 } from '@lucide/angular';
 import { InstallmentOption } from '../../models/installment.model'
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { Location } from '@angular/common';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 //import { AuthService } from '../../services/auth/auth.service';
@@ -47,7 +46,6 @@ interface CartItem {
     DecimalPipe,
     LucideStar,
     HeaderComponent,
-    MenuComponent,
     BreadcrumbComponent,
     RouterLink,
   ],

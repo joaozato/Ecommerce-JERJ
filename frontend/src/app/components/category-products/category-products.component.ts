@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
@@ -18,7 +17,6 @@ import { CartService } from '../../services/cart/cart.service';
     BreadcrumbComponent,
     CartModalComponent,
     HeaderComponent,
-    MenuComponent,
     ProductCardComponent,
   ],
   providers: [TitleCasePipe],
