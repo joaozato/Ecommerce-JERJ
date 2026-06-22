@@ -39,7 +39,7 @@
       <div class="category-grid">
         <ul *ngFor="let group of categories">
           <li *ngFor="let category of group">
-            <a href="#">{{ category }}</a>
+            <a [routerLink]="categoryRoute(category)" (click)="closeMenu()">{{ category }}</a>
           </li>
         </ul>
       </div>

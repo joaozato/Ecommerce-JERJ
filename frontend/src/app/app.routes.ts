@@ -3,6 +3,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { VendaPageComponent } from './components/venda-page/venda-page.component';
+import { CategoryProductsComponent } from './components/category-products/category-products.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { AuthGuard } from './services/auth/auth.guard';
@@ -28,6 +29,14 @@ export const routes: Routes = [
   {
     path: 'venda',
     component: VendaPageComponent,
+  },
+  {
+    path: 'categoria/:categoria',
+    component: CategoryProductsComponent,
+  },
+  {
+    path: 'categorias/:categoria',
+    component: CategoryProductsComponent,
   },
   {
     path: 'adminDashboard',

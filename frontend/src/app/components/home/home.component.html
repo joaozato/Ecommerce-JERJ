@@ -59,28 +59,11 @@
     </h2>
 
     <div class="products-grid">
-      <article class="product-card" *ngFor="let produto of listaProdutos">
-        <div class="product-rating" aria-label="5 estrelas">
-          <svg lucideStar *ngFor="let star of [1, 2, 3, 4, 5]" size="18" strokeWidth="0" class="star-icon"></svg>
-          <span>({{ produto.avaliacoes }})</span>
-        </div>
-
-        <div class="product-image-slot" aria-hidden="true"></div>
-
-        <h3 class="product-name">{{ produto.nome }}</h3>
-        <p class="product-meta">{{ produto.marca }} - {{ produto.quantidade }} em estoque</p>
-
-        <footer class="product-footer">
-          <div>
-            <strong>R$ {{ produto.preco | number:'1.2-2' }}</strong>
-            <small>ou R$ {{ produto.valorParcela | number:'1.2-2' }} em {{ produto.parcelas }}x</small>
-          </div>
-
-          <button type="button" class="add-cart-button" (click)="adicionarAoCarrinho(produto)" [attr.aria-label]="'Adicionar ' + produto.nome + ' ao carrinho'">
-            <svg lucideShoppingCart size="22" strokeWidth="2.3"></svg>
-          </button>
-        </footer>
-      </article>
+      <app-product-card
+        *ngFor="let produto of listaProdutos"
+        [product]="produto"
+        (addToCart)="adicionarAoCarrinho($event)"
+      />
     </div>
   </section>
 </main>

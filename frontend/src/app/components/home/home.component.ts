@@ -4,19 +4,14 @@ import {
   LucideChevronLeft,
   LucideChevronRight,
   LucideFlame,
-  LucideShoppingCart,
-  LucideStar,
 } from '@lucide/angular';
 import { HeaderComponent } from '../header/header.component';
 import { MenuComponent } from '../menu/menu.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
+import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
 
-interface HomeProduct extends Product {
-  avaliacoes: number;
-  valorParcela: number;
-  parcelas: number;
-}
+type HomeProduct = ProductCardItem;
 
 interface CartItem {
   produto: HomeProduct;
@@ -34,9 +29,8 @@ interface CartItem {
     LucideChevronLeft,
     LucideChevronRight,
     LucideFlame,
-    LucideShoppingCart,
-    LucideStar,
     MenuComponent,
+    ProductCardComponent,
   ],
 })
 export class HomeComponent implements OnInit {
