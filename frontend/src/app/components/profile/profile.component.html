@@ -36,17 +36,17 @@
 
         <div class="tracking">
           <h4>Rastreio</h4>
-          <ol>
-            <li class="tracking-step tracking-step--active">
+
+          <p class="tracking-loading" *ngIf="!order.tracking.length">Atualizando rastreio...</p>
+
+          <ol *ngIf="order.tracking.length">
+            <li
+              class="tracking-step"
+              *ngFor="let step of order.tracking"
+              [class.tracking-step--active]="step.progress === 100"
+            >
               <span></span>
-              Saiu da filial
-            </li>
-            <li class="tracking-step tracking-step--middle">
-              <span></span>
-            </li>
-            <li class="tracking-step tracking-step--active">
-              <span></span>
-              {{ order.status }}
+              {{ step.status }}
             </li>
           </ol>
         </div>
