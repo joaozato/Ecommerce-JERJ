@@ -1,9 +1,7 @@
 <main class="sale-page">
   <app-header [cartItems]="0" />
 
-  <nav class="breadcrumb" aria-label="Caminho da compra">
-    HOME &gt; Visualizar Produto &gt; Compra
-  </nav>
+  <app-breadcrumb [items]="breadcrumbItems" />
 
   <section class="checkout-progress" aria-label="Etapas da compra">
     <div class="step" [class.step--active]="isDeliveryStep">

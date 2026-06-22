@@ -8,6 +8,7 @@ import {
   LucideMapPin,
   LucideShoppingCart,
 } from '@lucide/angular';
+import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
 
 type CheckoutStep = 'delivery' | 'payment' | 'success';
@@ -17,6 +18,7 @@ type CheckoutStep = 'delivery' | 'payment' | 'success';
   standalone: true,
   imports: [
     CommonModule,
+    BreadcrumbComponent,
     HeaderComponent,
     LucideCheck,
     LucideCreditCard,
@@ -29,6 +31,11 @@ type CheckoutStep = 'delivery' | 'payment' | 'success';
 })
 export class VendaPageComponent {
   currentStep: CheckoutStep = 'delivery';
+  breadcrumbItems: BreadcrumbItem[] = [
+    { label: 'HOME', route: '/home' },
+    { label: 'Visualizar Produto', route: '/home' },
+    { label: 'Compra' },
+  ];
 
   constructor(private router: Router) { }
 

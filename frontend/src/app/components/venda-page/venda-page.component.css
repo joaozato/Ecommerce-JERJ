@@ -9,13 +9,6 @@
   background: #ffffff;
 }
 
-.breadcrumb {
-  padding: 12px 11px 0;
-  color: #2d4a6d;
-  font-size: 12px;
-  font-weight: 700;
-}
-
 .checkout-progress {
   display: flex;
   align-items: center;
