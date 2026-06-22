@@ -92,18 +92,31 @@ public class produtosService {
         float totalFaturamento = 0f;
         float totalLucro = 0f;
 
+        Venda vendaFinal = Venda.builder()
+                .dataHora(LocalDateTime.now())
+                .usuario(user)
+                .build();
+                
+        java.util.List<com.commerce.ecommercerj.infrastructure.entitys.ItemVenda> itensVenda = new java.util.ArrayList<>();
+
         for (CheckoutItemDTO item : itens) {
             Venda v = vendaProdutos(item.id(), item.quantidade());
             totalFaturamento += v.getFaturamento();
             totalLucro += v.getLucroLiquido();
+            
+            produtos p = repository.findById(item.id()).orElseThrow();
+            
+            com.commerce.ecommercerj.infrastructure.entitys.ItemVenda iv = com.commerce.ecommercerj.infrastructure.entitys.ItemVenda.builder()
+                    .venda(vendaFinal)
+                    .produto(p)
+                    .quantidade(item.quantidade())
+                    .build();
+            itensVenda.add(iv);
         }
 
-        Venda vendaFinal = Venda.builder()
-                .faturamento(totalFaturamento)
-                .lucroLiquido(totalLucro)
-                .dataHora(LocalDateTime.now())
-                .usuario(user)
-                .build();
+        vendaFinal.setFaturamento(totalFaturamento);
+        vendaFinal.setLucroLiquido(totalLucro);
+        vendaFinal.setItens(itensVenda);
 
         Venda vendaSalva = vendaRepository.save(vendaFinal);
 

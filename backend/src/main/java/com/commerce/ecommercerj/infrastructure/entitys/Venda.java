@@ -29,4 +29,7 @@ public class Venda {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private usuarios usuario;
+
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<ItemVenda> itens;
 }
