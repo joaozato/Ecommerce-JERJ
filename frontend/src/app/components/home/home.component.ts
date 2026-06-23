@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   bannerAtual = 0;
   banners: string[] = [
     'airfryer3.png',
-    'pcgamerzao.png',
+    'pcgamerzao2.png',
   ];
   private readonly produtosBase: HomeProduct[] = [
     { id: 1, nome: 'Produto destaque 1', marca: 'Marca', preco: 150.5, custo: 0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem: '' },
