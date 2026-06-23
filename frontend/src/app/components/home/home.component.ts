@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   LucideChevronLeft,
@@ -47,17 +47,23 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.listaProdutos = this.produtosBase;
+    this.listarProdutosDoBanco();
   }
 
   listarProdutosDoBanco() {
     this.productService.listAll().subscribe({
-      next: (dados) => this.listaProdutos = this.mapearProdutos(dados),
-      error: (err) => console.error('Erro ao buscar produtos:', err)
+      next: (dados) => {
+        this.listaProdutos = this.mapearProdutos(dados);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro ao buscar produtos:', err);
+      }
     });
   }
 
@@ -79,17 +85,19 @@ export class HomeComponent implements OnInit {
     const nome = termo.trim();
 
     if (!nome) {
-
-      this.listaProdutos = this.produtosBase;
+      this.listarProdutosDoBanco();
       return;
-
     }
 
     this.productService.searchByName(nome).subscribe({
-      next: (dados) => this.listaProdutos = this.mapearProdutos(dados),
+      next: (dados) => {
+        this.listaProdutos = this.mapearProdutos(dados);
+        this.cdr.detectChanges();
+      },
       error: (err) => {
         console.error('Erro ao pesquisar produtos:', err);
         this.listaProdutos = [];
+        this.cdr.detectChanges();
       },
     });
   }

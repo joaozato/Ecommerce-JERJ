@@ -1,5 +1,5 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
@@ -34,7 +34,8 @@ export class CategoryProductsComponent implements OnInit {
     private route: ActivatedRoute,
     private titleCasePipe: TitleCasePipe,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -82,10 +83,12 @@ export class CategoryProductsComponent implements OnInit {
         this.products = products.length
           ? this.mapProducts(products)
           : this.createMockProducts(this.categoryName);
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Erro ao buscar produtos por categoria:', err);
         this.products = this.createMockProducts(this.categoryName);
+        this.cdr.detectChanges();
       },
     });
   }
@@ -103,4 +106,35 @@ export class CategoryProductsComponent implements OnInit {
     const normalized = slug.replace(/-/g, ' ');
     return this.titleCasePipe.transform(normalized) ?? 'Categoria';
   }
+
+
+  //Search
+
+
+
+  pesquisarProdutos(termo: string) {
+    const nome = termo.trim();
+
+    if (!nome) {
+
+
+      this.loadProductsByCategory();
+      return;
+
+    }
+
+    this.productService.searchByName(nome).subscribe({
+      next: (dados) => {this.products = this.mapProducts(dados)
+        //console.log("Puxou do banco")
+        this.cdr.detectChanges();
+      },
+
+      error: (err) => {
+        console.error('Erro ao pesquisar produtos:', err);
+        this.products = [];
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
 }

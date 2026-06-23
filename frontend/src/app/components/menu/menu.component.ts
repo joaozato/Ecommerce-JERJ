@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideMenu, LucideUserRound } from '@lucide/angular';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,6 +12,9 @@ import { LucideMenu, LucideUserRound } from '@lucide/angular';
   styleUrl: './menu.component.css',
 })
 export class MenuComponent {
+
+  constructor(public authService: AuthService) {}
+
   @Output() menuClick = new EventEmitter<void>();
 
   isOpen = false;
@@ -19,6 +23,8 @@ export class MenuComponent {
     ['Livros', 'Infantil', 'Moveis'],
     ['Casa', 'Musica', 'Beleza'],
   ];
+
+
 
   toggleMenu(event?: MouseEvent) {
     this.isOpen = !this.isOpen;
@@ -32,5 +38,12 @@ export class MenuComponent {
   categoryRoute(category: string) {
     return ['/categoria', category.toLowerCase().replace(/\s+/g, '-')];
   }
+
+  logout(): void {
+    this.authService.logout();
+  }
+
 }
+
+
 

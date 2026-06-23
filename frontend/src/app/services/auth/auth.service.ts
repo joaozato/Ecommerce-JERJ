@@ -48,7 +48,7 @@ export class AuthService {
   // LOGOUT
   logout(): void {
     localStorage.removeItem('token');
-    this.router.navigate(['/login']); // Router vai redirecionar para o componente de login
+    this.router.navigate(['/home']); // Router vai redirecionar para o componente de login
   }
 
   // VERIFICA SE ESTÁ LOGADO

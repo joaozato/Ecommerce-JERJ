@@ -80,5 +80,5 @@ export const routes: Routes = [
   {
     path: 'produto/:id',
     component: ProductDetailsComponent,
-  }
+  },
 ];
