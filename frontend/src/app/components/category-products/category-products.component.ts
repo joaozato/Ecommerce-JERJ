@@ -106,4 +106,35 @@ export class CategoryProductsComponent implements OnInit {
     const normalized = slug.replace(/-/g, ' ');
     return this.titleCasePipe.transform(normalized) ?? 'Categoria';
   }
+
+
+  //Search
+
+
+
+  pesquisarProdutos(termo: string) {
+    const nome = termo.trim();
+
+    if (!nome) {
+
+
+      this.loadProductsByCategory();
+      return;
+
+    }
+
+    this.productService.searchByName(nome).subscribe({
+      next: (dados) => {this.products = this.mapProducts(dados)
+        //console.log("Puxou do banco")
+        this.cdr.detectChanges();
+      },
+
+      error: (err) => {
+        console.error('Erro ao pesquisar produtos:', err);
+        this.products = [];
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
 }

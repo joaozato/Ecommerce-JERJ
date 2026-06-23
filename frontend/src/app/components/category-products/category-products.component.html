@@ -1,5 +1,5 @@
 <main class="category-page">
-  <app-header [cartItems]="cartItems" (cartClick)="toggleCart()" />
+  <app-header [cartItems]="cartItems" (cartClick)="toggleCart()" (searchChange)="pesquisarProdutos($event)" />
 
   <app-cart-modal [isOpen]="cartOpen" (closed)="cartOpen = false" />
 
