@@ -1,8 +1,11 @@
-<app-header [cartItems]="cartItems" />
+<app-header
+  [cartItems]="cartItems"
+  (cartClick)="toggleCart()"
+/>
+
+<app-cart-modal [isOpen]="cartOpen" (closed)="cartOpen = false" />
 
 <div class="min-h-screen bg-gray-100 py-6 lg:py-10">
-
-  <app-menu />
 
   <app-breadcrumb [items]="breadcrumbItems" />
 
@@ -49,7 +52,7 @@
             <div class="flex flex-col gap-4">
               <button [routerLink]="['/venda']" class="w-full rounded-lg bg-[#EF8354] py-4 font-semibold text-white transition duration-200 hover:bg-orange-700">Comprar Agora</button>
 
-              <button  (click)="addToCart(product?.quantidade)" class="w-full rounded-lg bg-[#2D3142] py-4 font-semibold text-white transition duration-200 hover:bg-blue-700">Adicionar ao Carrinho</button>
+              <button (click)="addToCart()" class="w-full rounded-lg bg-[#2D3142] py-4 font-semibold text-white transition duration-200 hover:bg-blue-700">Adicionar ao Carrinho</button>
             </div>
           </div>
 

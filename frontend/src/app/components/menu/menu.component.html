@@ -1,13 +1,7 @@
 <button
-  class="floating-menu"
+  class="menu-button"
   type="button"
   aria-label="Abrir menu"
-  [style.top.px]="menuPosition.top"
-  [style.right.px]="menuPosition.right"
-  (pointerdown)="startDrag($event)"
-  (pointermove)="dragMenu($event)"
-  (pointerup)="endDrag($event)"
-  (pointercancel)="endDrag($event)"
   (click)="toggleMenu($event)"
 >
   <svg lucideMenu size="27" strokeWidth="2.5"></svg>
@@ -19,15 +13,14 @@
   class="menu-modal"
   *ngIf="isOpen"
   aria-label="Menu principal"
-  [style.top.px]="menuPosition.top"
-  [style.right.px]="menuPosition.right"
 >
-  <header class="menu-header">
-    <a class="profile-button" routerLink="/meu-perfil" (click)="closeMenu()">
+
+  <a [routerLink]="!authService.isLoggedIn() ? '/login' : authService.isAdmin() ? '/admin/dashboard' : '/meu-perfil'">
+    <header class="menu-header">
       <svg lucideUserRound size="23" strokeWidth="2.5"></svg>
-      <span>Acessar perfil</span>
-    </a>
-  </header>
+      <span>{{ !authService.isLoggedIn() ? 'Logar' : authService.isAdmin() ? 'Área Administrativa' : 'Área do Usuário' }}</span>
+    </header>
+  </a>
 
   <nav class="menu-content">
     <a routerLink="/minhas-compras" (click)="closeMenu()">Minhas compras</a>
@@ -44,5 +37,11 @@
         </ul>
       </div>
     </section>
+
+    <!-- Logout -->
+    <div class="flex justify-center p-2 rounded-2xl bg-red-400 hover:[scale:1.03]" *ngIf="authService.isLoggedIn()">
+      <a class="text-white" (click)="logout()">Log-out</a>
+    </div>
   </nav>
 </aside>
+

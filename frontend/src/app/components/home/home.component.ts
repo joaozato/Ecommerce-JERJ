@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   LucideChevronLeft,
@@ -7,7 +7,6 @@ import {
 } from '@lucide/angular';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
 import { ProductCardComponent, ProductCardItem } from '../product-card/product-card.component';
@@ -27,7 +26,6 @@ type HomeProduct = ProductCardItem;
     LucideChevronLeft,
     LucideChevronRight,
     LucideFlame,
-    MenuComponent,
     ProductCardComponent,
   ],
 })
@@ -36,7 +34,10 @@ export class HomeComponent implements OnInit {
   listaProdutos: HomeProduct[] = [];
   carrinhoAberto = false;
   bannerAtual = 0;
-  banners: string[] = [];
+  banners: string[] = [
+    'airfryer3.png',
+    'pcgamerzao2.png',
+  ];
   private readonly produtosBase: HomeProduct[] = [
     { id: 1, nome: 'Produto destaque 1', marca: 'Marca', preco: 150.5, custo: 0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem: '' },
     { id: 2, nome: 'Produto destaque 2', marca: 'Marca', preco: 150.5, custo: 0, quantidade: 0, avaliacoes: 33, valorParcela: 30.1, parcelas: 5, pathImagem: '' },
@@ -46,18 +47,23 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.listaProdutos = this.produtosBase;
     this.listarProdutosDoBanco();
   }
 
   listarProdutosDoBanco() {
     this.productService.listAll().subscribe({
-      next: (dados) => this.listaProdutos = this.mapearProdutos(dados),
-      error: (err) => console.error('Erro ao buscar produtos:', err)
+      next: (dados) => {
+        this.listaProdutos = this.mapearProdutos(dados);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro ao buscar produtos:', err);
+      }
     });
   }
 
@@ -84,16 +90,16 @@ export class HomeComponent implements OnInit {
     }
 
     this.productService.searchByName(nome).subscribe({
-      next: (dados) => this.listaProdutos = this.mapearProdutos(dados),
+      next: (dados) => {
+        this.listaProdutos = this.mapearProdutos(dados);
+        this.cdr.detectChanges();
+      },
       error: (err) => {
         console.error('Erro ao pesquisar produtos:', err);
         this.listaProdutos = [];
+        this.cdr.detectChanges();
       },
     });
-  }
-
-  abrirMenu() {
-    console.log('Abrir menu');
   }
 
   bannerAnterior() {
@@ -122,4 +128,6 @@ export class HomeComponent implements OnInit {
       parcelas: 5,
     }));
   }
+
+
 }

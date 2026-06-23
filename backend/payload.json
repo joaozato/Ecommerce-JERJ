@@ -1,0 +1,7 @@
+{
+  "nome": "Teste CPF Longo",
+  "email": "cpflongo2@teste.com",
+  "senha": "123",
+  "cpf": "123.456.789-00",
+  "role": "USER"
+}

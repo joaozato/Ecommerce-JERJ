@@ -16,14 +16,5 @@ public class EcommercerjApplication {
 		SpringApplication.run(EcommercerjApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner updateCategories(produtosRepository repository) {
-		return args -> {
-			List<produtos> lista = repository.findAll();
-			for (produtos p : lista) {
-				p.setCategoria("Tecnologia");
-				repository.save(p);
-			}
-		};
-	}
+
 }

@@ -1,11 +1,9 @@
 <main class="category-page">
-  <app-header [cartItems]="cartItems" (cartClick)="toggleCart()" />
+  <app-header [cartItems]="cartItems" (cartClick)="toggleCart()" (searchChange)="pesquisarProdutos($event)" />
 
   <app-cart-modal [isOpen]="cartOpen" (closed)="cartOpen = false" />
 
   <app-breadcrumb [items]="breadcrumbItems" />
-
-  <app-menu />
 
   <section class="category-panel" [attr.aria-labelledby]="'category-title'">
     <header class="category-title">

@@ -17,6 +17,10 @@ public class usuariosService {
 
     public void salvaUsuario(usuarios usuario){
 
+        if (usuario.getCpf() != null) {
+            usuario.setCpf(usuario.getCpf().replaceAll("[^0-9]", ""));
+        }
+
         if (repository.existsByEmail(usuario.getEmail())) {
             throw new RuntimeException("Este e-mail já está cadastrado no sistema!");
         }

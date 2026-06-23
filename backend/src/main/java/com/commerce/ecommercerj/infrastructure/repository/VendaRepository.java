@@ -11,4 +11,6 @@ public interface VendaRepository extends JpaRepository<Venda, Integer> {
 
     @Query("SELECT COALESCE(SUM(v.lucroLiquido), 0) FROM Venda v")
     float sumLucroLiquidoTotal();
+
+    java.util.List<Venda> findByUsuarioEmailOrderByDataHoraDesc(String email);
 }

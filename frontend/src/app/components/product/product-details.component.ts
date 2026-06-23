@@ -17,19 +17,16 @@ import {
 } from '@lucide/angular';
 import { InstallmentOption } from '../../models/installment.model'
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { Location } from '@angular/common';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
+import {  CartModalComponent  } from '../cart-modal/cart-modal.component';
+import {CartService} from '../../services/cart/cart.service';
+import {ProductCardItem} from '../product-card/product-card.component';
+
 //import { AuthService } from '../../services/auth/auth.service';
 
+type HomeProduct = ProductCardItem;
 
-
-interface HomeProduct extends Product {
-  pathImagem: string;
-  avaliacoes: number;
-  valorParcela: number;
-  parcelas: number;
-}
 
 interface CartItem {
   produto: HomeProduct;
@@ -47,9 +44,9 @@ interface CartItem {
     DecimalPipe,
     LucideStar,
     HeaderComponent,
-    MenuComponent,
     BreadcrumbComponent,
     RouterLink,
+    CartModalComponent,
   ],
 })
 
@@ -58,22 +55,20 @@ interface CartItem {
 export class ProductDetailsComponent implements OnInit {
 
   // Para o carrinho
-  //itensCarrinho: CartItem[] = [];
-  //carrinhoAberto = false;
-  //totalItensCarrinho = 0;
+
+  cartOpen = false; // Carrinho está fechado
 
   breadcrumbItems: BreadcrumbItem[] = [
     { label: 'HOME', route: '/home' },
     { label: 'Visualizar Produto' },
   ];
 
-  cartItems = 0;
-
-  product?: Product;
+  product?: Product; // Interface do produto - Parametros necessários
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
+    private cartService: CartService,
     private cdr: ChangeDetectorRef, // Força o Angular a re-renderizar o template para evitar erros de req com a API
     private location: Location,
   ) {}
@@ -99,10 +94,28 @@ export class ProductDetailsComponent implements OnInit {
 
   }
 
-  addToCart(qt:any) {
-    if (this.cartItems < qt) { // Não deixa ao carrinho uma quantidade maior que a do estoque
-      this.cartItems += 1;
+  //addToCart(qt:any) {
+    //if (this.cartItems < qt) { // Não deixa ao carrinho uma quantidade maior que a do estoque
+      //this.cartItems += 1;
+    //}
+  //}
+
+  addToCart() {
+    if (!this.product) {
+      return;
     }
+
+    this.cartService.add(this.product);
+    this.cartOpen = true;
+  }
+
+  toggleCart() {
+    this.cartOpen = !this.cartOpen;
+  }
+
+  get cartItems() {
+    console.log('carrinho está aqui')
+    return this.cartService.countItems();
   }
 
   installmentOptions: InstallmentOption[] = [];
