@@ -3,7 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
+import { AuthService } from '../../services/auth/auth.service';
 import { PedidoTrackingService, PedidoTrackingStatus } from '../../services/pedido-tracking/pedido-tracking.service';
+import { LoggedUser, UserService } from '../../services/user/user.service';
+import { MinhaCompra, VendaItem, VendaService } from '../../services/venda/venda.service';
 
 interface ProfileInfo {
   nome: string;
@@ -16,6 +19,7 @@ interface OrderItem {
   produto: string;
   preco: number;
   dataCompra: string;
+  imagem?: string;
   tracking: PedidoTrackingStatus[];
 }
 
@@ -39,30 +43,58 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ];
 
   profile: ProfileInfo = {
-    nome: 'Rafaela Goulart',
-    telefone: '53 992107139',
-    email: 'rafa@gmail.com',
+    nome: '',
+    telefone: '',
+    email: '',
   };
 
-  savedAddress = {
-    nome: 'Rafaela Goulart',
-    telefone: '53 992107139',
-    email: 'rafa@gmail.com',
-  };
+  orders: OrderItem[] = [];
+  isOrdersLoading = true;
 
-  orders: OrderItem[] = [
-    { id: 1, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-    { id: 2, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-    { id: 3, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-    { id: 4, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-  ];
-
-  constructor(private pedidoTrackingService: PedidoTrackingService) { }
+  constructor(
+    private authService: AuthService,
+    private pedidoTrackingService: PedidoTrackingService,
+    private userService: UserService,
+    private vendaService: VendaService
+  ) { }
 
   ngOnInit(): void {
-    this.orders.forEach((order) => {
-      const subscription = this.pedidoTrackingService.trackPedido(order.id).subscribe({
-        next: (trackingStatus) => this.updateOrderTracking(order.id, trackingStatus),
+    this.loadLoggedUser();
+    this.loadOrders();
+  }
+
+  ngOnDestroy(): void {
+    this.trackingSubscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  private loadLoggedUser() {
+    const email = this.authService.getPayload()?.sub;
+
+    if (!email) {
+      return;
+    }
+
+    this.userService.findByEmail(email).subscribe({
+      next: (user) => {
+        if (!user) {
+          return;
+        }
+
+        this.applyLoggedUser(user);
+      },
+      error: (err) => console.error('Erro ao carregar usuario logado:', err),
+    });
+  }
+
+  private listenOrderTracking() {
+    this.trackingSubscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.trackingSubscriptions = [];
+
+    const orderIds = [...new Set(this.orders.map((order) => order.id))];
+
+    orderIds.forEach((orderId) => {
+      const subscription = this.pedidoTrackingService.trackPedido(orderId).subscribe({
+        next: (trackingStatus) => this.updateOrderTracking(orderId, trackingStatus),
         error: (err) => console.error('Erro ao atualizar rastreio:', err),
       });
 
@@ -70,8 +102,64 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.trackingSubscriptions.forEach((subscription) => subscription.unsubscribe());
+  private loadOrders() {
+    this.isOrdersLoading = true;
+
+    this.vendaService.minhasCompras().subscribe({
+      next: (compras) => {
+        this.orders = (compras || []).flatMap((compra) => this.mapOrders(compra));
+        this.isOrdersLoading = false;
+        this.listenOrderTracking();
+      },
+      error: (err) => {
+        console.error('Erro ao carregar minhas compras:', err);
+        this.orders = [];
+        this.isOrdersLoading = false;
+      },
+    });
+  }
+
+  private applyLoggedUser(user: LoggedUser) {
+    const userInfo = {
+      nome: user.nome,
+      telefone: user.telefone || 'Nao informado',
+      email: user.email,
+    };
+
+    this.profile = userInfo;
+  }
+
+  private mapOrders(compra: MinhaCompra): OrderItem[] {
+    if (!compra.itens?.length) {
+      return [this.createOrderItem(compra)];
+    }
+
+    return compra.itens.map((item) => this.createOrderItem(compra, item));
+  }
+
+  private createOrderItem(compra: MinhaCompra, item?: VendaItem): OrderItem {
+    return {
+      id: compra.id,
+      produto: item?.produto?.nome || 'Produto',
+      preco: item?.produto?.preco ? item.produto.preco * item.quantidade : compra.faturamento,
+      dataCompra: this.formatDate(compra.dataHora),
+      imagem: item?.produto?.pathImagem,
+      tracking: [],
+    };
+  }
+
+  private formatDate(date: string) {
+    if (!date) {
+      return 'Nao informado';
+    }
+
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return 'Nao informado';
+    }
+
+    return parsedDate.toLocaleDateString('pt-BR');
   }
 
   private updateOrderTracking(orderId: number, trackingStatus: PedidoTrackingStatus) {

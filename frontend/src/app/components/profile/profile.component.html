@@ -6,25 +6,23 @@
   <section class="profile-summary" aria-label="Dados do perfil">
     <article class="profile-box">
       <h1>Perfil</h1>
-      <p>Nome: {{ profile.nome }}</p>
-      <p>Telefone: {{ profile.telefone }}</p>
-      <p>E-Mail: {{ profile.email }}</p>
-    </article>
-
-    <article class="profile-box profile-box--address">
-      <h2>Endereços salvos</h2>
-      <p>Nome: {{ savedAddress.nome }}</p>
-      <p>Telefone: {{ savedAddress.telefone }}</p>
-      <p>E-Mail: {{ savedAddress.email }}</p>
+      <p>Nome: {{ profile.nome || 'Carregando...' }}</p>
+      <p>Telefone: {{ profile.telefone || 'Carregando...' }}</p>
+      <p>E-Mail: {{ profile.email || 'Carregando...' }}</p>
     </article>
   </section>
 
   <section class="orders-panel" aria-labelledby="orders-title">
     <h2 id="orders-title">Meus pedidos</h2>
 
-    <div class="orders-list">
+    <p class="orders-empty" *ngIf="!isOrdersLoading && !orders.length">Vazio</p>
+    <p class="orders-empty" *ngIf="isOrdersLoading">Carregando...</p>
+
+    <div class="orders-list" *ngIf="orders.length">
       <article class="order-card" *ngFor="let order of orders">
-        <div class="order-image" aria-hidden="true"></div>
+        <div class="order-image" aria-hidden="true">
+          <img *ngIf="order.imagem" [src]="order.imagem" [alt]="order.produto" />
+        </div>
 
         <div class="order-info">
           <h3>{{ order.produto }}</h3>
