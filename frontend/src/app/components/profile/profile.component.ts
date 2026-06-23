@@ -29,7 +29,6 @@ interface OrderItem {
     CommonModule,
     BreadcrumbComponent,
     HeaderComponent,
-    MenuComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',

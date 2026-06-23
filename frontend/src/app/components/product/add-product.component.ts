@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { BreadcrumbItem, BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 //import { AuthService } from '../../services/auth/auth.service';
 
@@ -20,7 +19,6 @@ import { BreadcrumbItem, BreadcrumbComponent } from '../breadcrumb/breadcrumb.co
   imports: [
     CommonModule,             // <-- necessário para utilizar *ngIf e *ngFor
     HeaderComponent,
-    MenuComponent,
     FormsModule,
     BreadcrumbComponent,
   ],
