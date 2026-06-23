@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   LucideSearch,
   LucideShoppingCart,
-  LucideSmile,
 } from '@lucide/angular';
 import { MenuComponent } from '../menu/menu.component';
 
@@ -12,7 +11,6 @@ import { MenuComponent } from '../menu/menu.component';
   imports: [
     LucideSearch,
     LucideShoppingCart,
-    LucideSmile,
     MenuComponent,
   ],
   templateUrl: './header.component.html',
@@ -20,7 +18,6 @@ import { MenuComponent } from '../menu/menu.component';
 })
 export class HeaderComponent {
   @Input() cartItems = 0;
-  @Input() brandName = 'RJEJ';
 
   @Output() cartClick = new EventEmitter<void>();
   @Output() searchChange = new EventEmitter<string>();
