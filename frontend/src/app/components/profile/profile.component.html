@@ -6,20 +6,11 @@
   <section class="profile-summary" aria-label="Dados do perfil">
     <article class="profile-box">
       <h1>Perfil</h1>
-      <p>Nome: {{ profile.nome }}</p>
-      <p>Telefone: {{ profile.telefone }}</p>
-      <p>E-Mail: {{ profile.email }}</p>
+      <p>Nome: {{ profile.nome || 'Carregando...' }}</p>
+      <p>Telefone: {{ profile.telefone || 'Carregando...' }}</p>
+      <p>E-Mail: {{ profile.email || 'Carregando...' }}</p>
     </article>
-
-    <article class="profile-box profile-box--address">
-      <h2>Endereços salvos</h2>
-      <p>Nome: {{ savedAddress.nome }}</p>
-      <p>Telefone: {{ savedAddress.telefone }}</p>
-      <p>E-Mail: {{ savedAddress.email }}</p>
-    </article>
-  </section>
-
-  <section class="orders-panel" aria-labelledby="orders-title">
+  </section> <section class="orders-panel" aria-labelledby="orders-title">
     <h2 id="orders-title">Meus pedidos</h2>
 
     <div class="orders-list">

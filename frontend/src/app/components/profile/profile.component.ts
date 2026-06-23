@@ -3,7 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
+import { MenuComponent } from '../menu/menu.component';
+import { AuthService } from '../../services/auth/auth.service';
 import { PedidoTrackingService, PedidoTrackingStatus } from '../../services/pedido-tracking/pedido-tracking.service';
+import { LoggedUser, UserService } from '../../services/user/user.service';
 
 interface ProfileInfo {
   nome: string;
@@ -39,15 +42,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ];
 
   profile: ProfileInfo = {
-    nome: 'Rafaela Goulart',
-    telefone: '53 992107139',
-    email: 'rafa@gmail.com',
-  };
-
-  savedAddress = {
-    nome: 'Rafaela Goulart',
-    telefone: '53 992107139',
-    email: 'rafa@gmail.com',
+    nome: '',
+    telefone: '',
+    email: '',
   };
 
   orders: OrderItem[] = [
@@ -57,9 +54,41 @@ export class ProfileComponent implements OnInit, OnDestroy {
     { id: 4, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
   ];
 
-  constructor(private pedidoTrackingService: PedidoTrackingService) { }
+  constructor(
+    private authService: AuthService,
+    private pedidoTrackingService: PedidoTrackingService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.loadLoggedUser();
+    this.listenOrderTracking();
+  }
+
+  ngOnDestroy(): void {
+    this.trackingSubscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  private loadLoggedUser() {
+    const email = this.authService.getPayload()?.sub;
+
+    if (!email) {
+      return;
+    }
+
+    this.userService.findByEmail(email).subscribe({
+      next: (user) => {
+        if (!user) {
+          return;
+        }
+
+        this.applyLoggedUser(user);
+      },
+      error: (err) => console.error('Erro ao carregar usuario logado:', err),
+    });
+  }
+
+  private listenOrderTracking() {
     this.orders.forEach((order) => {
       const subscription = this.pedidoTrackingService.trackPedido(order.id).subscribe({
         next: (trackingStatus) => this.updateOrderTracking(order.id, trackingStatus),
@@ -70,8 +99,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.trackingSubscriptions.forEach((subscription) => subscription.unsubscribe());
+  private applyLoggedUser(user: LoggedUser) {
+    const userInfo = {
+      nome: user.nome,
+      telefone: user.telefone || 'Nao informado',
+      email: user.email,
+    };
+
+    this.profile = userInfo;
   }
 
   private updateOrderTracking(orderId: number, trackingStatus: PedidoTrackingStatus) {
