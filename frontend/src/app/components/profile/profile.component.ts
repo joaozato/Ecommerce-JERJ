@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
 import { HeaderComponent } from '../header/header.component';
-import { MenuComponent } from '../menu/menu.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { PedidoTrackingService, PedidoTrackingStatus } from '../../services/pedido-tracking/pedido-tracking.service';
 import { LoggedUser, UserService } from '../../services/user/user.service';
+import { MinhaCompra, VendaService } from '../../services/venda/venda.service';
 
 interface ProfileInfo {
   nome: string;
@@ -19,6 +19,7 @@ interface OrderItem {
   produto: string;
   preco: number;
   dataCompra: string;
+  imagem?: string;
   tracking: PedidoTrackingStatus[];
 }
 
@@ -47,22 +48,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
     email: '',
   };
 
-  orders: OrderItem[] = [
-    { id: 1, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-    { id: 2, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-    { id: 3, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-    { id: 4, produto: 'Apple Iphone Pro Max 16', preco: 7999.99, dataCompra: '16/06/2026', tracking: [] },
-  ];
+  orders: OrderItem[] = [];
+  isOrdersLoading = true;
 
   constructor(
     private authService: AuthService,
     private pedidoTrackingService: PedidoTrackingService,
-    private userService: UserService
+    private userService: UserService,
+    private vendaService: VendaService
   ) { }
 
   ngOnInit(): void {
     this.loadLoggedUser();
-    this.listenOrderTracking();
+    this.loadOrders();
   }
 
   ngOnDestroy(): void {
@@ -89,6 +87,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private listenOrderTracking() {
+    this.trackingSubscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.trackingSubscriptions = [];
+
     this.orders.forEach((order) => {
       const subscription = this.pedidoTrackingService.trackPedido(order.id).subscribe({
         next: (trackingStatus) => this.updateOrderTracking(order.id, trackingStatus),
@@ -96,6 +97,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
 
       this.trackingSubscriptions.push(subscription);
+    });
+  }
+
+  private loadOrders() {
+    this.isOrdersLoading = true;
+
+    this.vendaService.minhasCompras().subscribe({
+      next: (compras) => {
+        this.orders = (compras || []).map((compra) => this.mapOrder(compra));
+        this.isOrdersLoading = false;
+        this.listenOrderTracking();
+      },
+      error: (err) => {
+        console.error('Erro ao carregar minhas compras:', err);
+        this.orders = [];
+        this.isOrdersLoading = false;
+      },
     });
   }
 
@@ -107,6 +125,37 @@ export class ProfileComponent implements OnInit, OnDestroy {
     };
 
     this.profile = userInfo;
+  }
+
+  private mapOrder(compra: MinhaCompra): OrderItem {
+    const firstItem = compra.itens?.[0];
+    const productName = firstItem?.produto?.nome || 'Produto';
+    const extraItems = compra.itens && compra.itens.length > 1
+      ? ` + ${compra.itens.length - 1} item(ns)`
+      : '';
+
+    return {
+      id: compra.id,
+      produto: `${productName}${extraItems}`,
+      preco: compra.faturamento,
+      dataCompra: this.formatDate(compra.dataHora),
+      imagem: firstItem?.produto?.pathImagem,
+      tracking: [],
+    };
+  }
+
+  private formatDate(date: string) {
+    if (!date) {
+      return 'Nao informado';
+    }
+
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return 'Nao informado';
+    }
+
+    return parsedDate.toLocaleDateString('pt-BR');
   }
 
   private updateOrderTracking(orderId: number, trackingStatus: PedidoTrackingStatus) {
