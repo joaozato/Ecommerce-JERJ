@@ -90,9 +90,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.trackingSubscriptions.forEach((subscription) => subscription.unsubscribe());
     this.trackingSubscriptions = [];
 
-    this.orders.forEach((order) => {
-      const subscription = this.pedidoTrackingService.trackPedido(order.id).subscribe({
-        next: (trackingStatus) => this.updateOrderTracking(order.id, trackingStatus),
+    const orderIds = [...new Set(this.orders.map((order) => order.id))];
+
+    orderIds.forEach((orderId) => {
+      const subscription = this.pedidoTrackingService.trackPedido(orderId).subscribe({
+        next: (trackingStatus) => this.updateOrderTracking(orderId, trackingStatus),
         error: (err) => console.error('Erro ao atualizar rastreio:', err),
       });
 
@@ -105,7 +107,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.vendaService.minhasCompras().subscribe({
       next: (compras) => {
-        this.orders = (compras || []).map((compra) => this.mapOrder(compra));
+        this.orders = (compras || []).flatMap((compra) => this.mapOrders(compra));
         this.isOrdersLoading = false;
         this.listenOrderTracking();
       },
@@ -127,19 +129,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.profile = userInfo;
   }
 
-  private mapOrder(compra: MinhaCompra): OrderItem {
-    const firstItem = compra.itens?.[0];
-    const productName = firstItem?.produto?.nome || 'Produto';
-    const extraItems = compra.itens && compra.itens.length > 1
-      ? ` + ${compra.itens.length - 1} item(ns)`
-      : '';
+  private mapOrders(compra: MinhaCompra): OrderItem[] {
+    if (!compra.itens?.length) {
+      return [this.createOrderItem(compra)];
+    }
 
+    return compra.itens.map((item) => this.createOrderItem(compra, item));
+  }
+
+  private createOrderItem(compra: MinhaCompra, item?: MinhaCompra['itens'][number]): OrderItem {
     return {
       id: compra.id,
-      produto: `${productName}${extraItems}`,
-      preco: compra.faturamento,
+      produto: item?.produto?.nome || 'Produto',
+      preco: item?.produto?.preco ? item.produto.preco * item.quantidade : compra.faturamento,
       dataCompra: this.formatDate(compra.dataHora),
-      imagem: firstItem?.produto?.pathImagem,
+      imagem: item?.produto?.pathImagem,
       tracking: [],
     };
   }
