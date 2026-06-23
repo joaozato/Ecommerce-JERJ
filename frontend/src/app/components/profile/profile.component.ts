@@ -6,7 +6,7 @@ import { HeaderComponent } from '../header/header.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { PedidoTrackingService, PedidoTrackingStatus } from '../../services/pedido-tracking/pedido-tracking.service';
 import { LoggedUser, UserService } from '../../services/user/user.service';
-import { MinhaCompra, VendaService } from '../../services/venda/venda.service';
+import { MinhaCompra, VendaItem, VendaService } from '../../services/venda/venda.service';
 
 interface ProfileInfo {
   nome: string;
@@ -137,7 +137,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     return compra.itens.map((item) => this.createOrderItem(compra, item));
   }
 
-  private createOrderItem(compra: MinhaCompra, item?: MinhaCompra['itens'][number]): OrderItem {
+  private createOrderItem(compra: MinhaCompra, item?: VendaItem): OrderItem {
     return {
       id: compra.id,
       produto: item?.produto?.nome || 'Produto',
