@@ -85,6 +85,11 @@ export class VendaPageComponent implements OnDestroy {
   }
 
   finishPurchase() {
+    const checkoutItems = this.cartItems.map(item => ({
+      id: item.produto.id,
+      quantidade: item.quantidade
+    }));
+
     if (this.isPixPayment) {
       this.clearPixTimers();
 
@@ -97,23 +102,21 @@ export class VendaPageComponent implements OnDestroy {
       this.pixQrTimer = setTimeout(() => {
         this.clearPixTimers();
         this.showPixQrCode = false;
-        this.currentStep = 'success';
-        this.changeDetector.detectChanges();
+        this.processCheckout(checkoutItems);
       }, 10000);
       return;
     }
 
-    this.currentStep = 'success';
-    const checkoutItems = this.cartItems.map(item => ({
-      id: item.produto.id,
-      quantidade: item.quantidade
-    }));
+    this.processCheckout(checkoutItems);
+  }
 
+  private processCheckout(checkoutItems: any[]) {
     this.productService.checkout(checkoutItems).subscribe({
       next: () => {
         this.cartService.clear();
         this.cartItems = [];
         this.currentStep = 'success';
+        this.changeDetector.detectChanges();
       },
       error: (err) => {
         console.error('Erro ao realizar o checkout:', err);

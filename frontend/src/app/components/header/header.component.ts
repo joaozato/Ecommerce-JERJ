@@ -1,3 +1,4 @@
+import { RouterLink } from '@angular/router';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   LucideSearch,
@@ -12,6 +13,7 @@ import { MenuComponent } from '../menu/menu.component';
     LucideSearch,
     LucideShoppingCart,
     MenuComponent,
+    RouterLink,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
