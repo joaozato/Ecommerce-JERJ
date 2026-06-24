@@ -19,7 +19,7 @@ import {jwtDecode} from 'jwt-decode';
 
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080'; // URL DO BACK - Provavelmente vai mudar quando for para a Vercel
+  private apiUrl = 'http://localhost:8081'; // URL DO BACK - Provavelmente vai mudar quando for para a Vercel
 
   constructor(private http: HttpClient, private router: Router) { }
 

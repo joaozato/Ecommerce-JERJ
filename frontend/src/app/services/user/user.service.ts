@@ -15,7 +15,7 @@ export interface LoggedUser {
   providedIn: 'root',
 })
 export class UserService {
-  private readonly apiUrl = 'http://localhost:8080/usuarios';
+  private readonly apiUrl = 'http://localhost:8081/usuarios';
 
   constructor(private http: HttpClient) { }
 

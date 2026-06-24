@@ -27,7 +27,7 @@ export interface MinhaCompra {
   providedIn: 'root',
 })
 export class VendaService {
-  private readonly apiUrl = 'http://localhost:8080/vendas';
+  private readonly apiUrl = 'http://localhost:8081/vendas';
 
   constructor(private http: HttpClient) { }
 

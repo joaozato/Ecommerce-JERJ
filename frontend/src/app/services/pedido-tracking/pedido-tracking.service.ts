@@ -10,7 +10,7 @@ export interface PedidoTrackingStatus {
   providedIn: 'root',
 })
 export class PedidoTrackingService {
-  private readonly apiUrl = 'http://localhost:8080/pedidos';
+  private readonly apiUrl = 'http://localhost:8081/pedidos';
 
   constructor(private zone: NgZone) { }
 

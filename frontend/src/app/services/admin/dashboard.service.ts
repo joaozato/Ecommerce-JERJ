@@ -20,7 +20,7 @@ export class DashboardService {
     return new Observable<any>(observer => {
 
       const source = new EventSource(
-        'http://localhost:8080/admin/dashboard/stream' // URL do SSE
+        'http://localhost:8081/admin/dashboard/stream' // URL do SSE
       );
 
 
